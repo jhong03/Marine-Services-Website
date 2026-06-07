@@ -1,9 +1,0 @@
-Add Docker deploy config for Render + Neon hosting
-
-- Dockerfile: single PHP 8.4 + Node image; installs extensions (pdo_pgsql, etc.),
-  builds frontend (Wayfinder needs PHP), boots via migrate + seed admin + artisan serve
-- .dockerignore: exclude vendor, node_modules, .env, local sqlite
-- Trust proxies in bootstrap/app.php for correct HTTPS behind Render's load balancer
-- CHECKPOINT.md: Render + Neon (no-card) deployment steps
-
-Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>

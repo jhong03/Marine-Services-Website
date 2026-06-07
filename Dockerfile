@@ -15,6 +15,17 @@
 # ---- Base: FrankenPHP runtime with required PHP extensions ----
 FROM dunglas/frankenphp:1-php8.4 AS base
 RUN install-php-extensions pdo_pgsql mbstring bcmath zip intl opcache pcntl
+
+# Render (and other hosts) run containers with `no-new-privileges`, under which the
+# kernel refuses to exec a binary that carries file capabilities — the symptom is
+# `exec: /usr/local/bin/frankenphp: Operation not permitted`. The image ships
+# frankenphp with cap_net_bind_service so it can bind :80/:443 as non-root, but we
+# bind a high port ($PORT), so the cap is unnecessary. Strip it by recreating the
+# binary — a plain `cp` drops the `security.capability` xattr.
+RUN cp /usr/local/bin/frankenphp /usr/local/bin/frankenphp.nocap \
+    && mv -f /usr/local/bin/frankenphp.nocap /usr/local/bin/frankenphp \
+    && chmod 0755 /usr/local/bin/frankenphp
+
 COPY docker/opcache.ini /usr/local/etc/php/conf.d/zz-opcache.ini
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 WORKDIR /app

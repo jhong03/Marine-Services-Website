@@ -168,9 +168,17 @@ dashboard (auto-deploy is off unless the GitHub App is connected to the `jhong03
 > service, runs our Docker image) + **Neon** (free Postgres).
 
 **Repo deploy files (committed):**
-- `Dockerfile` — single PHP 8.4 + Node image; installs deps, builds assets (Wayfinder needs PHP),
-  boots with `migrate` → `db:seed --force` (admin + content) → `php artisan serve`.
+- `Dockerfile` — multi-stage **FrankenPHP + Laravel Octane** image (`dunglas/frankenphp:1-php8.4`).
+  Build stage adds Node + Composer and compiles assets (Wayfinder needs PHP); runtime stage boots
+  with `migrate` → `db:seed --force` (admin + content) → cache config/routes/views →
+  `php artisan octane:start --server=frankenphp` (worker mode).
+- `docker/opcache.ini` — production OPcache (JIT off; see file for why).
 - `.dockerignore`; `bootstrap/app.php` has `trustProxies(at: '*')` for HTTPS behind Render.
+
+**Why this stack (perf):** the old `php artisan serve` was single-process — one page load's
+assets queued behind PHP, which on Render free's throttled 0.1 CPU read as *minutes per click*.
+FrankenPHP (Caddy) serves static assets directly and Octane keeps Laravel booted in memory, so
+requests skip the per-request bootstrap. `OCTANE_WORKERS` (default 2) can be raised on bigger tiers.
 
 **Step 1 — Neon:** sign up (no card) → create project → copy the connection string
 (`postgresql://user:pass@ep-xxx.region.aws.neon.tech/dbname?sslmode=require`).
@@ -185,6 +193,12 @@ paste `https://github.com/jhong03/Marine-Services-Website` (Render's connected G
 
 On boot the container migrates + seeds. Open the URL; admin at `/admin`.
 
-**Caveats:** free instances sleep after ~15 min (slow first hit); `php artisan serve` is
-test-grade; change the seeded admin password before sharing widely; image uploads need object
-storage (ephemeral disk won't persist).
+**Keep it awake (fixes the cold-start lag):** Render free still spins the instance down after
+~15 min idle, so the *first* hit after a nap is slow even with Octane. Point a free uptime pinger
+(e.g. cron-job.org / UptimeRobot) at `https://<service>.onrender.com/up` every ~10 min — Laravel's
+built-in health route — to keep it warm during testing.
+
+**Caveats:** free tier is still a throttled 0.1 CPU (Octane makes it usable, not instant); change
+the seeded admin password before sharing widely; image uploads need object storage (ephemeral disk
+won't persist). For a genuinely snappy always-on demo, a paid Starter instance or a tunnel from your
+local machine (full CPU) will beat free hosting.

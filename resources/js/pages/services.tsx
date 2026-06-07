@@ -56,10 +56,13 @@ export default function Services() {
 
             <section className="bg-gradient-to-br from-slate-900 to-sky-900 text-white dark:from-black dark:to-sky-950">
                 <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Our Services</h1>
+                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+                        Our Services
+                    </h1>
                     <p className="mt-4 max-w-2xl text-lg text-slate-300">
-                        Comprehensive marine servicing and repair, delivered by certified
-                        technicians at your berth or in our fully equipped yard.
+                        Comprehensive marine servicing and repair, delivered by
+                        certified technicians at your berth or in our fully
+                        equipped yard.
                     </p>
                 </div>
             </section>
@@ -93,8 +96,8 @@ export default function Services() {
                         Don't see what you need?
                     </h2>
                     <p className="mt-3 text-slate-600 dark:text-slate-400">
-                        We take on custom jobs and project work. Get in touch and we'll let you know
-                        how we can help.
+                        We take on custom jobs and project work. Get in touch
+                        and we'll let you know how we can help.
                     </p>
                     <Link
                         href="/contact"

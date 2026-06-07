@@ -6,17 +6,20 @@ const VALUES = [
     {
         icon: Compass,
         title: 'Craftsmanship',
-        description: 'We do the job properly the first time, with attention to every detail.',
+        description:
+            'We do the job properly the first time, with attention to every detail.',
     },
     {
         icon: Heart,
         title: 'Honesty',
-        description: 'Clear quotes, straight advice, and no work done without your say-so.',
+        description:
+            'Clear quotes, straight advice, and no work done without your say-so.',
     },
     {
         icon: Users,
         title: 'Local & loyal',
-        description: 'A part of the boating community, looking after our customers for the long haul.',
+        description:
+            'A part of the boating community, looking after our customers for the long haul.',
     },
 ];
 
@@ -27,10 +30,12 @@ export default function About() {
 
             <section className="bg-gradient-to-br from-slate-900 to-sky-900 text-white dark:from-black dark:to-sky-950">
                 <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">About Us</h1>
+                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+                        About Us
+                    </h1>
                     <p className="mt-4 max-w-2xl text-lg text-slate-300">
-                        A team of dedicated marine professionals committed to keeping your vessel in
-                        top condition.
+                        A team of dedicated marine professionals committed to
+                        keeping your vessel in top condition.
                     </p>
                 </div>
             </section>
@@ -46,14 +51,16 @@ export default function About() {
                                 <span className="font-medium text-slate-800 dark:text-slate-100">
                                     [Placeholder company story]
                                 </span>{' '}
-                                — Marine Services was founded with a simple goal: deliver
-                                dependable, honest marine servicing the local boating community can
-                                trust.
+                                — Marine Services was founded with a simple
+                                goal: deliver dependable, honest marine
+                                servicing the local boating community can trust.
                             </p>
                             <p>
-                                Over the years we've grown from a single workshop into a full-service
-                                marine operation, but our values haven't changed. This copy is a
-                                placeholder — share your real history and we'll bring it to life.
+                                Over the years we've grown from a single
+                                workshop into a full-service marine operation,
+                                but our values haven't changed. This copy is a
+                                placeholder — share your real history and we'll
+                                bring it to life.
                             </p>
                         </div>
                     </div>
@@ -61,19 +68,27 @@ export default function About() {
                         <div className="grid grid-cols-2 gap-8">
                             <div>
                                 <div className="text-4xl font-bold">20+</div>
-                                <div className="mt-1 text-sm text-sky-100">Years experience</div>
+                                <div className="mt-1 text-sm text-sky-100">
+                                    Years experience
+                                </div>
                             </div>
                             <div>
                                 <div className="text-4xl font-bold">1,200+</div>
-                                <div className="mt-1 text-sm text-sky-100">Vessels serviced</div>
+                                <div className="mt-1 text-sm text-sky-100">
+                                    Vessels serviced
+                                </div>
                             </div>
                             <div>
                                 <div className="text-4xl font-bold">15</div>
-                                <div className="mt-1 text-sm text-sky-100">Team members</div>
+                                <div className="mt-1 text-sm text-sky-100">
+                                    Team members
+                                </div>
                             </div>
                             <div>
                                 <div className="text-4xl font-bold">24/7</div>
-                                <div className="mt-1 text-sm text-sky-100">Emergency support</div>
+                                <div className="mt-1 text-sm text-sky-100">
+                                    Emergency support
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -40,8 +40,8 @@ export default function Fleet() {
                         Fleet & Equipment
                     </h1>
                     <p className="mt-4 max-w-2xl text-lg text-slate-300">
-                        The right gear for every job — from on-water response to full haul-out and
-                        workshop servicing.
+                        The right gear for every job — from on-water response to
+                        full haul-out and workshop servicing.
                     </p>
                 </div>
             </section>
@@ -75,8 +75,8 @@ export default function Fleet() {
                     </div>
 
                     <p className="mt-10 text-center text-sm text-slate-500 dark:text-slate-400">
-                        Images are placeholders — real photos of your fleet can be managed from the
-                        admin panel.
+                        Images are placeholders — real photos of your fleet can
+                        be managed from the admin panel.
                     </p>
                 </div>
             </section>

@@ -1,8 +1,9 @@
 import { Link, usePage } from '@inertiajs/react';
 import { Anchor, Menu, X } from 'lucide-react';
-import { useState, type ReactNode } from 'react';
-import { login, register, dashboard } from '@/routes';
+import { useState } from 'react';
+import type { ReactNode } from 'react';
 import ThemeToggle from '@/components/theme-toggle';
+import { login, register, dashboard } from '@/routes';
 
 const NAV_LINKS = [
     { label: 'Home', href: '/' },
@@ -57,7 +58,10 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
 
                         <ThemeToggle className="ml-1" />
 
-                        <span className="mx-2 h-5 w-px bg-slate-200 dark:bg-slate-700" aria-hidden />
+                        <span
+                            className="mx-2 h-5 w-px bg-slate-200 dark:bg-slate-700"
+                            aria-hidden
+                        />
 
                         {auth.user ? (
                             <Link
@@ -100,7 +104,11 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                             className="inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
                             aria-label="Toggle navigation"
                         >
-                            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                            {mobileOpen ? (
+                                <X className="h-6 w-6" />
+                            ) : (
+                                <Menu className="h-6 w-6" />
+                            )}
                         </button>
                     </div>
                 </div>
@@ -173,16 +181,21 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-sky-600 to-cyan-500 text-white">
                                 <Anchor className="h-5 w-5" />
                             </span>
-                            <span className="text-lg font-semibold text-white">Marine Services</span>
+                            <span className="text-lg font-semibold text-white">
+                                Marine Services
+                            </span>
                         </div>
                         <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
-                            Professional marine servicing, repairs, and maintenance — keeping your
-                            vessel safe, reliable, and ready for the water.
+                            Professional marine servicing, repairs, and
+                            maintenance — keeping your vessel safe, reliable,
+                            and ready for the water.
                         </p>
                     </div>
 
                     <div>
-                        <h3 className="text-sm font-semibold text-white">Explore</h3>
+                        <h3 className="text-sm font-semibold text-white">
+                            Explore
+                        </h3>
                         <ul className="mt-4 space-y-2 text-sm">
                             {NAV_LINKS.map((link) => (
                                 <li key={link.href}>
@@ -198,7 +211,9 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                     </div>
 
                     <div>
-                        <h3 className="text-sm font-semibold text-white">Get in touch</h3>
+                        <h3 className="text-sm font-semibold text-white">
+                            Get in touch
+                        </h3>
                         <ul className="mt-4 space-y-2 text-sm text-slate-400">
                             <li>Marina Drive, Harbourside</li>
                             <li>hello@marineservices.test</li>
@@ -208,7 +223,8 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                 </div>
                 <div className="border-t border-slate-800">
                     <div className="mx-auto w-full max-w-7xl px-4 py-6 text-center text-xs text-slate-500 sm:px-6 lg:px-8">
-                        © {new Date().getFullYear()} Marine Services. All rights reserved.
+                        © {new Date().getFullYear()} Marine Services. All rights
+                        reserved.
                     </div>
                 </div>
             </footer>

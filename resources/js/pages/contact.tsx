@@ -1,6 +1,7 @@
 import { Head } from '@inertiajs/react';
 import { MapPin, Mail, Phone, Clock, CheckCircle2 } from 'lucide-react';
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
+import type { FormEvent } from 'react';
 import PublicLayout from '@/layouts/public-layout';
 
 const DETAILS = [
@@ -12,7 +13,8 @@ const DETAILS = [
 
 const inputClass =
     'mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30 focus:outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:placeholder-slate-500';
-const labelClass = 'block text-sm font-medium text-slate-700 dark:text-slate-300';
+const labelClass =
+    'block text-sm font-medium text-slate-700 dark:text-slate-300';
 
 export default function Contact() {
     const [submitted, setSubmitted] = useState(false);
@@ -30,10 +32,12 @@ export default function Contact() {
 
             <section className="bg-gradient-to-br from-slate-900 to-sky-900 text-white dark:from-black dark:to-sky-950">
                 <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Get in Touch</h1>
+                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+                        Get in Touch
+                    </h1>
                     <p className="mt-4 max-w-2xl text-lg text-slate-300">
-                        Tell us about your vessel and what you need — we'll get back to you with a
-                        quote.
+                        Tell us about your vessel and what you need — we'll get
+                        back to you with a quote.
                     </p>
                 </div>
             </section>
@@ -69,16 +73,23 @@ export default function Contact() {
                                         Thanks for reaching out!
                                     </h2>
                                     <p className="mt-2 max-w-md text-slate-600 dark:text-slate-400">
-                                        This is a placeholder confirmation. Once the backend is wired
-                                        up (Phase 3), your enquiry will be saved and emailed to the
+                                        This is a placeholder confirmation. Once
+                                        the backend is wired up (Phase 3), your
+                                        enquiry will be saved and emailed to the
                                         team.
                                     </p>
                                 </div>
                             ) : (
-                                <form onSubmit={handleSubmit} className="space-y-5">
+                                <form
+                                    onSubmit={handleSubmit}
+                                    className="space-y-5"
+                                >
                                     <div className="grid gap-5 sm:grid-cols-2">
                                         <div>
-                                            <label htmlFor="name" className={labelClass}>
+                                            <label
+                                                htmlFor="name"
+                                                className={labelClass}
+                                            >
                                                 Name
                                             </label>
                                             <input
@@ -90,7 +101,10 @@ export default function Contact() {
                                             />
                                         </div>
                                         <div>
-                                            <label htmlFor="email" className={labelClass}>
+                                            <label
+                                                htmlFor="email"
+                                                className={labelClass}
+                                            >
                                                 Email
                                             </label>
                                             <input
@@ -103,7 +117,10 @@ export default function Contact() {
                                         </div>
                                     </div>
                                     <div>
-                                        <label htmlFor="vessel" className={labelClass}>
+                                        <label
+                                            htmlFor="vessel"
+                                            className={labelClass}
+                                        >
                                             Vessel / service needed
                                         </label>
                                         <input
@@ -114,7 +131,10 @@ export default function Contact() {
                                         />
                                     </div>
                                     <div>
-                                        <label htmlFor="message" className={labelClass}>
+                                        <label
+                                            htmlFor="message"
+                                            className={labelClass}
+                                        >
                                             Message
                                         </label>
                                         <textarea

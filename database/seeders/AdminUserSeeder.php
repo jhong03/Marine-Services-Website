@@ -14,6 +14,6 @@ class AdminUserSeeder extends Seeder
             ['name' => 'Admin', 'password' => 'password'],
         );
 
-        $this->command->info('Admin user ready: ' . $user->email . ' (id ' . $user->id . ')');
+        $this->command->info('Admin user ready: '.$user->email.' (id '.$user->id.')');
     }
 }

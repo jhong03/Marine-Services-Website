@@ -14,7 +14,9 @@ createInertiaApp({
         switch (true) {
             // Public marketing pages bring their own <PublicLayout>, so they
             // must opt out of the global app (sidebar) layout.
-            case ['welcome', 'services', 'fleet', 'about', 'contact'].includes(name):
+            case ['welcome', 'services', 'fleet', 'about', 'contact'].includes(
+                name,
+            ):
                 return null;
             case name.startsWith('auth/'):
                 return AuthLayout;

@@ -16,20 +16,26 @@ export default function AuthSimpleLayout({
                     <Waves className="absolute -right-12 -bottom-12 h-[28rem] w-[28rem] text-sky-400" />
                 </div>
 
-                <Link href={home()} className="relative flex items-center gap-2">
+                <Link
+                    href={home()}
+                    className="relative flex items-center gap-2"
+                >
                     <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-sky-600 to-cyan-500 text-white shadow-sm">
                         <Anchor className="h-5 w-5" />
                     </span>
-                    <span className="text-lg font-semibold tracking-tight">Marine Services</span>
+                    <span className="text-lg font-semibold tracking-tight">
+                        Marine Services
+                    </span>
                 </Link>
 
                 <div className="relative max-w-md">
-                    <h2 className="text-3xl font-bold leading-tight">
+                    <h2 className="text-3xl leading-tight font-bold">
                         Your vessel, in expert hands
                     </h2>
                     <p className="mt-4 text-slate-300">
-                        Manage your bookings, track your servicing history, and stay on top of your
-                        boat's maintenance — all in one place.
+                        Manage your bookings, track your servicing history, and
+                        stay on top of your boat's maintenance — all in one
+                        place.
                     </p>
                 </div>
 
@@ -69,7 +75,9 @@ export default function AuthSimpleLayout({
                             <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                                 {title}
                             </h1>
-                            <p className="text-sm text-slate-500 dark:text-slate-400">{description}</p>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">
+                                {description}
+                            </p>
                         </div>
 
                         <div className="mt-8">{children}</div>

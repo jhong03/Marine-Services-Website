@@ -80,8 +80,9 @@ export default function Welcome() {
                             Expert care for your vessel, on and off the water
                         </h1>
                         <p className="mt-6 text-lg leading-relaxed text-slate-300">
-                            Servicing, repairs, and maintenance delivered by certified marine
-                            technicians. Keep your boat safe, reliable, and ready for every voyage.
+                            Servicing, repairs, and maintenance delivered by
+                            certified marine technicians. Keep your boat safe,
+                            reliable, and ready for every voyage.
                         </p>
                         <div className="mt-10 flex flex-wrap gap-4">
                             <Link
@@ -168,12 +169,16 @@ export default function Welcome() {
                                 Why crews choose us
                             </h2>
                             <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
-                                Decades of hands-on marine experience, a fully equipped yard, and a
-                                team that treats every vessel like its own.
+                                Decades of hands-on marine experience, a fully
+                                equipped yard, and a team that treats every
+                                vessel like its own.
                             </p>
                             <div className="mt-8 space-y-6">
                                 {WHY_US.map((item) => (
-                                    <div key={item.title} className="flex gap-4">
+                                    <div
+                                        key={item.title}
+                                        className="flex gap-4"
+                                    >
                                         <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-sky-50 text-sky-600 dark:bg-sky-950 dark:text-sky-400">
                                             <item.icon className="h-5 w-5" />
                                         </span>
@@ -191,9 +196,10 @@ export default function Welcome() {
                         </div>
                         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-600 to-cyan-500 p-10 text-white shadow-xl">
                             <Ship className="h-12 w-12" />
-                            <blockquote className="mt-6 text-xl font-medium leading-relaxed">
-                                “Fast, professional, and honest. They had our engine sorted and us
-                                back on the water within days.”
+                            <blockquote className="mt-6 text-xl leading-relaxed font-medium">
+                                “Fast, professional, and honest. They had our
+                                engine sorted and us back on the water within
+                                days.”
                             </blockquote>
                             <div className="mt-6 text-sm text-sky-100">
                                 — Placeholder testimonial, happy customer
@@ -210,7 +216,8 @@ export default function Welcome() {
                         Ready to book your vessel in?
                     </h2>
                     <p className="mx-auto mt-4 max-w-xl text-lg text-slate-300">
-                        Tell us what you need and we'll get back to you with a quote.
+                        Tell us what you need and we'll get back to you with a
+                        quote.
                     </p>
                     <Link
                         href="/contact"

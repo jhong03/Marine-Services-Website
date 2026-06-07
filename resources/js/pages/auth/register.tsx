@@ -92,7 +92,7 @@ export default function Register({ passwordRules }: Props) {
 
                             <Button
                                 type="submit"
-                                className="mt-2 w-full"
+                                className="mt-2 w-full bg-sky-600 text-white hover:bg-sky-700"
                                 tabIndex={5}
                                 data-test="register-user-button"
                             >

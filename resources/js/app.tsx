@@ -12,7 +12,9 @@ createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
     layout: (name) => {
         switch (true) {
-            case name === 'welcome':
+            // Public marketing pages bring their own <PublicLayout>, so they
+            // must opt out of the global app (sidebar) layout.
+            case ['welcome', 'services', 'fleet', 'about', 'contact'].includes(name):
                 return null;
             case name.startsWith('auth/'):
                 return AuthLayout;

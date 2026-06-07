@@ -66,7 +66,7 @@ export default function Welcome() {
             <Head title="Marine Servicing & Repairs" />
 
             {/* Hero */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900 to-sky-900 text-white">
+            <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900 to-sky-900 text-white dark:from-black dark:via-slate-950 dark:to-sky-950">
                 <div className="absolute inset-0 opacity-20">
                     <Waves className="absolute -right-10 -bottom-10 h-96 w-96 text-sky-400" />
                 </div>
@@ -103,27 +103,29 @@ export default function Welcome() {
             </section>
 
             {/* Stats */}
-            <section className="border-b border-slate-100 bg-white">
+            <section className="border-b border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-950">
                 <div className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-8 px-4 py-12 sm:px-6 lg:grid-cols-4 lg:px-8">
                     {STATS.map((stat) => (
                         <div key={stat.label} className="text-center">
-                            <div className="text-3xl font-bold text-sky-600 sm:text-4xl">
+                            <div className="text-3xl font-bold text-sky-600 sm:text-4xl dark:text-sky-400">
                                 {stat.value}
                             </div>
-                            <div className="mt-1 text-sm text-slate-500">{stat.label}</div>
+                            <div className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                                {stat.label}
+                            </div>
                         </div>
                     ))}
                 </div>
             </section>
 
             {/* Services preview */}
-            <section className="bg-slate-50 py-20">
+            <section className="bg-slate-50 py-20 dark:bg-slate-900">
                 <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl text-center">
-                        <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+                        <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
                             What we do
                         </h2>
-                        <p className="mt-4 text-lg text-slate-600">
+                        <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
                             A complete range of marine services under one roof.
                         </p>
                     </div>
@@ -131,15 +133,15 @@ export default function Welcome() {
                         {SERVICES.map((service) => (
                             <div
                                 key={service.title}
-                                className="group rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-shadow hover:shadow-md"
+                                className="group rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
                             >
-                                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-600 transition-colors group-hover:bg-sky-600 group-hover:text-white">
+                                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-600 transition-colors group-hover:bg-sky-600 group-hover:text-white dark:bg-sky-950 dark:text-sky-400 dark:group-hover:bg-sky-500 dark:group-hover:text-white">
                                     <service.icon className="h-6 w-6" />
                                 </span>
-                                <h3 className="mt-6 text-xl font-semibold text-slate-900">
+                                <h3 className="mt-6 text-xl font-semibold text-slate-900 dark:text-white">
                                     {service.title}
                                 </h3>
-                                <p className="mt-3 leading-relaxed text-slate-600">
+                                <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
                                     {service.description}
                                 </p>
                             </div>
@@ -148,7 +150,7 @@ export default function Welcome() {
                     <div className="mt-12 text-center">
                         <Link
                             href="/services"
-                            className="inline-flex items-center gap-2 text-base font-semibold text-sky-600 hover:text-sky-700"
+                            className="inline-flex items-center gap-2 text-base font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300"
                         >
                             View all services
                             <ArrowRight className="h-4 w-4" />
@@ -158,28 +160,28 @@ export default function Welcome() {
             </section>
 
             {/* Why us */}
-            <section className="bg-white py-20">
+            <section className="bg-white py-20 dark:bg-slate-950">
                 <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
                         <div>
-                            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+                            <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
                                 Why crews choose us
                             </h2>
-                            <p className="mt-4 text-lg text-slate-600">
+                            <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
                                 Decades of hands-on marine experience, a fully equipped yard, and a
                                 team that treats every vessel like its own.
                             </p>
                             <div className="mt-8 space-y-6">
                                 {WHY_US.map((item) => (
                                     <div key={item.title} className="flex gap-4">
-                                        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-sky-50 text-sky-600">
+                                        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-sky-50 text-sky-600 dark:bg-sky-950 dark:text-sky-400">
                                             <item.icon className="h-5 w-5" />
                                         </span>
                                         <div>
-                                            <h3 className="font-semibold text-slate-900">
+                                            <h3 className="font-semibold text-slate-900 dark:text-white">
                                                 {item.title}
                                             </h3>
-                                            <p className="mt-1 text-slate-600">
+                                            <p className="mt-1 text-slate-600 dark:text-slate-400">
                                                 {item.description}
                                             </p>
                                         </div>
@@ -202,7 +204,7 @@ export default function Welcome() {
             </section>
 
             {/* CTA */}
-            <section className="bg-slate-900">
+            <section className="bg-slate-900 dark:bg-slate-900">
                 <div className="mx-auto w-full max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
                     <h2 className="text-3xl font-bold tracking-tight text-white">
                         Ready to book your vessel in?

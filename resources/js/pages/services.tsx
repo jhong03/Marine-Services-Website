@@ -54,7 +54,7 @@ export default function Services() {
         <PublicLayout>
             <Head title="Services" />
 
-            <section className="bg-gradient-to-br from-slate-900 to-sky-900 text-white">
+            <section className="bg-gradient-to-br from-slate-900 to-sky-900 text-white dark:from-black dark:to-sky-950">
                 <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
                     <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Our Services</h1>
                     <p className="mt-4 max-w-2xl text-lg text-slate-300">
@@ -64,21 +64,21 @@ export default function Services() {
                 </div>
             </section>
 
-            <section className="bg-slate-50 py-20">
+            <section className="bg-slate-50 py-20 dark:bg-slate-900">
                 <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                         {SERVICES.map((service) => (
                             <div
                                 key={service.title}
-                                className="group rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-shadow hover:shadow-md"
+                                className="group rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
                             >
-                                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-600 transition-colors group-hover:bg-sky-600 group-hover:text-white">
+                                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-600 transition-colors group-hover:bg-sky-600 group-hover:text-white dark:bg-sky-950 dark:text-sky-400 dark:group-hover:bg-sky-500 dark:group-hover:text-white">
                                     <service.icon className="h-6 w-6" />
                                 </span>
-                                <h2 className="mt-6 text-xl font-semibold text-slate-900">
+                                <h2 className="mt-6 text-xl font-semibold text-slate-900 dark:text-white">
                                     {service.title}
                                 </h2>
-                                <p className="mt-3 leading-relaxed text-slate-600">
+                                <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
                                     {service.description}
                                 </p>
                             </div>
@@ -87,12 +87,12 @@ export default function Services() {
                 </div>
             </section>
 
-            <section className="bg-white py-16">
+            <section className="bg-white py-16 dark:bg-slate-950">
                 <div className="mx-auto w-full max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-                    <h2 className="text-2xl font-bold text-slate-900">
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
                         Don't see what you need?
                     </h2>
-                    <p className="mt-3 text-slate-600">
+                    <p className="mt-3 text-slate-600 dark:text-slate-400">
                         We take on custom jobs and project work. Get in touch and we'll let you know
                         how we can help.
                     </p>

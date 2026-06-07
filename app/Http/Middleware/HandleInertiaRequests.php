@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SiteSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -35,6 +37,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $settings = Schema::hasTable('site_settings') ? SiteSetting::query()->first() : null;
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -42,6 +46,21 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'siteSettings' => $settings?->only([
+                'company_name',
+                'tagline',
+                'email',
+                'phone',
+                'address',
+                'hours',
+                'facebook_url',
+                'instagram_url',
+                'hero_heading',
+                'hero_subtext',
+                'about_story',
+                'stats',
+                'core_values',
+            ]),
         ];
     }
 }

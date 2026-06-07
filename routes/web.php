@@ -1,15 +1,12 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'welcome')->name('home');
-Route::inertia('/services', 'services')->name('services');
-Route::inertia('/fleet', 'fleet')->name('fleet');
-Route::inertia('/about', 'about')->name('about');
-Route::inertia('/contact', 'contact')->name('contact');
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
-});
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/services', [PageController::class, 'services'])->name('services');
+Route::get('/fleet', [PageController::class, 'fleet'])->name('fleet');
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
 require __DIR__.'/settings.php';

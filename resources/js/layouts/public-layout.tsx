@@ -1,9 +1,17 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Anchor, Menu, X } from 'lucide-react';
+import { Anchor, LogOut, Menu, Settings, Shield, X } from 'lucide-react';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import ThemeToggle from '@/components/theme-toggle';
-import { login, register, dashboard } from '@/routes';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { UserMenuContent } from '@/components/user-menu-content';
+import { useInitials } from '@/hooks/use-initials';
+import { login, logout, register } from '@/routes';
+import { edit } from '@/routes/profile';
 
 const NAV_LINKS = [
     { label: 'Home', href: '/' },
@@ -23,8 +31,11 @@ function isActive(current: string, href: string): boolean {
 
 export default function PublicLayout({ children }: { children: ReactNode }) {
     const { url, props } = usePage();
-    const { auth } = props;
+    const { auth, siteSettings } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
+    const getInitials = useInitials();
+
+    const companyName = siteSettings?.company_name ?? 'Marine Services';
 
     return (
         <div className="flex min-h-screen flex-col bg-white text-slate-800 dark:bg-slate-950 dark:text-slate-200">
@@ -36,7 +47,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                             <Anchor className="h-5 w-5" />
                         </span>
                         <span className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
-                            Marine Services
+                            {companyName}
                         </span>
                     </Link>
 
@@ -64,12 +75,23 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                         />
 
                         {auth.user ? (
-                            <Link
-                                href={dashboard()}
-                                className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
-                            >
-                                Dashboard
-                            </Link>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <button
+                                        type="button"
+                                        aria-label="Account menu"
+                                        className="ml-1 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-sky-600 to-cyan-500 text-sm font-semibold text-white"
+                                    >
+                                        {getInitials(auth.user.name)}
+                                    </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    align="end"
+                                    className="w-56"
+                                >
+                                    <UserMenuContent user={auth.user} />
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         ) : (
                             <>
                                 <Link
@@ -134,13 +156,34 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                         <div className="my-2 h-px bg-slate-200 dark:bg-slate-800" />
 
                         {auth.user ? (
-                            <Link
-                                href={dashboard()}
-                                onClick={() => setMobileOpen(false)}
-                                className="block rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800"
-                            >
-                                Dashboard
-                            </Link>
+                            <>
+                                {auth.user.is_admin ? (
+                                    <a
+                                        href="/admin"
+                                        className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800"
+                                    >
+                                        <Shield className="h-4 w-4" />
+                                        Admin panel
+                                    </a>
+                                ) : null}
+                                <Link
+                                    href={edit()}
+                                    onClick={() => setMobileOpen(false)}
+                                    className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800"
+                                >
+                                    <Settings className="h-4 w-4" />
+                                    Settings
+                                </Link>
+                                <Link
+                                    href={logout()}
+                                    as="button"
+                                    onClick={() => setMobileOpen(false)}
+                                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-base font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800"
+                                >
+                                    <LogOut className="h-4 w-4" />
+                                    Log out
+                                </Link>
+                            </>
                         ) : (
                             <>
                                 <Link
@@ -182,13 +225,12 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                                 <Anchor className="h-5 w-5" />
                             </span>
                             <span className="text-lg font-semibold text-white">
-                                Marine Services
+                                {companyName}
                             </span>
                         </div>
                         <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
-                            Professional marine servicing, repairs, and
-                            maintenance — keeping your vessel safe, reliable,
-                            and ready for the water.
+                            {siteSettings?.tagline ??
+                                'Professional marine servicing, repairs, and maintenance — keeping your vessel safe, reliable, and ready for the water.'}
                         </p>
                     </div>
 
@@ -215,15 +257,21 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                             Get in touch
                         </h3>
                         <ul className="mt-4 space-y-2 text-sm text-slate-400">
-                            <li>Marina Drive, Harbourside</li>
-                            <li>hello@marineservices.test</li>
-                            <li>+00 0000 000000</li>
+                            {siteSettings?.address && (
+                                <li>{siteSettings.address}</li>
+                            )}
+                            {siteSettings?.email && (
+                                <li>{siteSettings.email}</li>
+                            )}
+                            {siteSettings?.phone && (
+                                <li>{siteSettings.phone}</li>
+                            )}
                         </ul>
                     </div>
                 </div>
                 <div className="border-t border-slate-800">
                     <div className="mx-auto w-full max-w-7xl px-4 py-6 text-center text-xs text-slate-500 sm:px-6 lg:px-8">
-                        © {new Date().getFullYear()} Marine Services. All rights
+                        © {new Date().getFullYear()} {companyName}. All rights
                         reserved.
                     </div>
                 </div>

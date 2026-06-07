@@ -1,43 +1,8 @@
-import { Head, Link } from '@inertiajs/react';
-import {
-    Anchor,
-    Waves,
-    Wrench,
-    ShieldCheck,
-    Ship,
-    Gauge,
-    Droplets,
-    ArrowRight,
-} from 'lucide-react';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { Anchor, ArrowRight, ShieldCheck, Ship, Waves } from 'lucide-react';
 import PublicLayout from '@/layouts/public-layout';
-
-const SERVICES = [
-    {
-        icon: Wrench,
-        title: 'Engine Service & Repair',
-        description:
-            'Inboard and outboard servicing, diagnostics, and repairs to keep you moving.',
-    },
-    {
-        icon: Droplets,
-        title: 'Hull Cleaning & Antifoul',
-        description:
-            'Pressure washing, antifoul application, and below-waterline maintenance.',
-    },
-    {
-        icon: Gauge,
-        title: 'Electronics & Rigging',
-        description:
-            'Navigation, instrumentation, and rigging installation, repair, and tuning.',
-    },
-];
-
-const STATS = [
-    { value: '20+', label: 'Years on the water' },
-    { value: '1,200+', label: 'Vessels serviced' },
-    { value: '24/7', label: 'Emergency callout' },
-    { value: '100%', label: 'Certified technicians' },
-];
+import { serviceIcon } from '@/lib/icons';
+import type { Service, Stat, Testimonial } from '@/types';
 
 const WHY_US = [
     {
@@ -60,7 +25,33 @@ const WHY_US = [
     },
 ];
 
-export default function Welcome() {
+const DEFAULT_STATS: Stat[] = [
+    { value: '20+', label: 'Years on the water' },
+    { value: '1,200+', label: 'Vessels serviced' },
+    { value: '24/7', label: 'Emergency callout' },
+    { value: '100%', label: 'Certified technicians' },
+];
+
+type Props = {
+    services: Service[];
+    testimonials: Testimonial[];
+};
+
+export default function Welcome({ services, testimonials }: Props) {
+    const { siteSettings } = usePage().props;
+
+    const stats = siteSettings?.stats?.length
+        ? siteSettings.stats
+        : DEFAULT_STATS;
+    const heroHeading =
+        siteSettings?.hero_heading ??
+        'Expert care for your vessel, on and off the water';
+    const heroSubtext =
+        siteSettings?.hero_subtext ??
+        'Servicing, repairs, and maintenance delivered by certified marine technicians. Keep your boat safe, reliable, and ready for every voyage.';
+    const featured = services.slice(0, 3);
+    const testimonial = testimonials[0];
+
     return (
         <PublicLayout>
             <Head title="Marine Servicing & Repairs" />
@@ -77,12 +68,10 @@ export default function Welcome() {
                             Trusted marine specialists
                         </span>
                         <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-                            Expert care for your vessel, on and off the water
+                            {heroHeading}
                         </h1>
                         <p className="mt-6 text-lg leading-relaxed text-slate-300">
-                            Servicing, repairs, and maintenance delivered by
-                            certified marine technicians. Keep your boat safe,
-                            reliable, and ready for every voyage.
+                            {heroSubtext}
                         </p>
                         <div className="mt-10 flex flex-wrap gap-4">
                             <Link
@@ -106,7 +95,7 @@ export default function Welcome() {
             {/* Stats */}
             <section className="border-b border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-950">
                 <div className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-8 px-4 py-12 sm:px-6 lg:grid-cols-4 lg:px-8">
-                    {STATS.map((stat) => (
+                    {stats.map((stat) => (
                         <div key={stat.label} className="text-center">
                             <div className="text-3xl font-bold text-sky-600 sm:text-4xl dark:text-sky-400">
                                 {stat.value}
@@ -120,45 +109,52 @@ export default function Welcome() {
             </section>
 
             {/* Services preview */}
-            <section className="bg-slate-50 py-20 dark:bg-slate-900">
-                <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="mx-auto max-w-2xl text-center">
-                        <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-                            What we do
-                        </h2>
-                        <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
-                            A complete range of marine services under one roof.
-                        </p>
-                    </div>
-                    <div className="mt-12 grid gap-8 md:grid-cols-3">
-                        {SERVICES.map((service) => (
-                            <div
-                                key={service.title}
-                                className="group rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
+            {featured.length > 0 && (
+                <section className="bg-slate-50 py-20 dark:bg-slate-900">
+                    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <div className="mx-auto max-w-2xl text-center">
+                            <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                                What we do
+                            </h2>
+                            <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
+                                A complete range of marine services under one
+                                roof.
+                            </p>
+                        </div>
+                        <div className="mt-12 grid gap-8 md:grid-cols-3">
+                            {featured.map((service) => {
+                                const Icon = serviceIcon(service.icon);
+
+                                return (
+                                    <div
+                                        key={service.id}
+                                        className="group rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
+                                    >
+                                        <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-600 transition-colors group-hover:bg-sky-600 group-hover:text-white dark:bg-sky-950 dark:text-sky-400 dark:group-hover:bg-sky-500 dark:group-hover:text-white">
+                                            <Icon className="h-6 w-6" />
+                                        </span>
+                                        <h3 className="mt-6 text-xl font-semibold text-slate-900 dark:text-white">
+                                            {service.title}
+                                        </h3>
+                                        <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
+                                            {service.description}
+                                        </p>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div className="mt-12 text-center">
+                            <Link
+                                href="/services"
+                                className="inline-flex items-center gap-2 text-base font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300"
                             >
-                                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-600 transition-colors group-hover:bg-sky-600 group-hover:text-white dark:bg-sky-950 dark:text-sky-400 dark:group-hover:bg-sky-500 dark:group-hover:text-white">
-                                    <service.icon className="h-6 w-6" />
-                                </span>
-                                <h3 className="mt-6 text-xl font-semibold text-slate-900 dark:text-white">
-                                    {service.title}
-                                </h3>
-                                <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
-                                    {service.description}
-                                </p>
-                            </div>
-                        ))}
+                                View all services
+                                <ArrowRight className="h-4 w-4" />
+                            </Link>
+                        </div>
                     </div>
-                    <div className="mt-12 text-center">
-                        <Link
-                            href="/services"
-                            className="inline-flex items-center gap-2 text-base font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300"
-                        >
-                            View all services
-                            <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* Why us */}
             <section className="bg-white py-20 dark:bg-slate-950">
@@ -194,17 +190,19 @@ export default function Welcome() {
                                 ))}
                             </div>
                         </div>
-                        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-600 to-cyan-500 p-10 text-white shadow-xl">
-                            <Ship className="h-12 w-12" />
-                            <blockquote className="mt-6 text-xl leading-relaxed font-medium">
-                                “Fast, professional, and honest. They had our
-                                engine sorted and us back on the water within
-                                days.”
-                            </blockquote>
-                            <div className="mt-6 text-sm text-sky-100">
-                                — Placeholder testimonial, happy customer
+                        {testimonial && (
+                            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-600 to-cyan-500 p-10 text-white shadow-xl">
+                                <Ship className="h-12 w-12" />
+                                <blockquote className="mt-6 text-xl leading-relaxed font-medium">
+                                    “{testimonial.quote}”
+                                </blockquote>
+                                {testimonial.author && (
+                                    <div className="mt-6 text-sm text-sky-100">
+                                        — {testimonial.author}
+                                    </div>
+                                )}
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </section>

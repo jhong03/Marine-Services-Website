@@ -1,23 +1,43 @@
-import { Head } from '@inertiajs/react';
-import { MapPin, Mail, Phone, Clock, CheckCircle2 } from 'lucide-react';
+import { Head, usePage } from '@inertiajs/react';
+import { CheckCircle2, Clock, Mail, MapPin, Phone } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import PublicLayout from '@/layouts/public-layout';
-
-const DETAILS = [
-    { icon: MapPin, label: 'Visit us', value: 'Marina Drive, Harbourside' },
-    { icon: Mail, label: 'Email', value: 'hello@marineservices.test' },
-    { icon: Phone, label: 'Call', value: '+00 0000 000000' },
-    { icon: Clock, label: 'Hours', value: 'Mon–Sat, 8am–6pm' },
-];
 
 const inputClass =
     'mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30 focus:outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:placeholder-slate-500';
 const labelClass =
     'block text-sm font-medium text-slate-700 dark:text-slate-300';
 
+type Detail = { icon: LucideIcon; label: string; value: string };
+
 export default function Contact() {
+    const { siteSettings } = usePage().props;
     const [submitted, setSubmitted] = useState(false);
+
+    const details: Detail[] = [
+        siteSettings?.address && {
+            icon: MapPin,
+            label: 'Visit us',
+            value: siteSettings.address,
+        },
+        siteSettings?.email && {
+            icon: Mail,
+            label: 'Email',
+            value: siteSettings.email,
+        },
+        siteSettings?.phone && {
+            icon: Phone,
+            label: 'Call',
+            value: siteSettings.phone,
+        },
+        siteSettings?.hours && {
+            icon: Clock,
+            label: 'Hours',
+            value: siteSettings.hours,
+        },
+    ].filter(Boolean) as Detail[];
 
     // NOTE: Phase 3 will replace this with an Inertia form POST that persists
     // the enquiry to the database and emails the team.
@@ -46,7 +66,7 @@ export default function Contact() {
                 <div className="mx-auto grid w-full max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
                     {/* Details */}
                     <div className="space-y-6">
-                        {DETAILS.map((detail) => (
+                        {details.map((detail) => (
                             <div key={detail.label} className="flex gap-4">
                                 <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-sky-50 text-sky-600 dark:bg-sky-950 dark:text-sky-400">
                                     <detail.icon className="h-5 w-5" />

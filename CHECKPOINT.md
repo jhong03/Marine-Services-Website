@@ -11,8 +11,10 @@ A website for a **Marine Services Company** (boat servicing, repairs, maintenanc
 Goals: smooth UX, strong SEO (local services business), and a simple admin so
 **non-technical staff** can manage content.
 
-**Status:** Phase 1 complete (scaffold + marketing site + admin shell + dark mode).
-Content is still **placeholder** pending real branding/copy.
+**Status:** **Phase 1 + Phase 2 complete.** Public marketing site (light + dark),
+unified auth, and a Filament admin where staff manage all content (which the public
+pages render live from the database). All content is still **placeholder** pending
+real branding/copy.
 
 ---
 
@@ -21,180 +23,168 @@ Content is still **placeholder** pending real branding/copy.
 | Layer | Choice | Version |
 |---|---|---|
 | Backend framework | Laravel | 13.14 |
-| Language runtime | PHP (via Laravel Herd) | 8.4.22 |
+| Language runtime | PHP (via Laravel Herd) | 8.4.22 (app needs ≥ 8.4.1) |
 | Frontend | React + Inertia.js | 19 / 3 |
 | Styling | Tailwind CSS | 4 |
 | UI components | shadcn-style + lucide-react icons | — |
 | Admin panel | Filament | 5.6.6 |
-| Database | SQLite (dev) | file-based |
+| Database | SQLite (dev) / Postgres (prod via Neon) | — |
 | Testing | Pest | — |
 | Auth | Fortify + starter kit (login, register, 2FA, passkeys) | — |
 
-**Why single-codebase Laravel + Inertia (not Next.js + separate API):** less to
-secure/deploy for a small team, SSR-capable for SEO, Filament gives a staff admin
-almost for free. Can split later if it grows app-heavy.
+Single-codebase Laravel + Inertia (not Next.js + separate API): less to secure/deploy,
+SSR-capable for SEO, Filament gives a staff admin almost for free.
 
 ---
 
 ## 3. Environment & How to Run
 
 - **OS:** Windows 11. Node v24.12.0, npm 11.6.2, Git 2.53.0.
-- **PHP/Composer:** provided by **Laravel Herd**. Binaries in
-  `C:\Users\ojh20\.config\herd\bin` (`php84\php.exe`, `composer.phar`, `laravel.phar`).
+- **PHP/Composer:** via **Laravel Herd**, binaries in `C:\Users\ojh20\.config\herd\bin`
+  (`php84\php.exe`, `composer.phar`, `laravel.phar`).
 - **PATH gotcha:** tool/background shells may not have Herd on PATH. Prepend it:
   ```powershell
   $env:Path = "$([System.Environment]::GetEnvironmentVariable('Path','Machine'));$([System.Environment]::GetEnvironmentVariable('Path','User'))"
   ```
 
-**Run the app (two options):**
+**Run the app:**
 ```powershell
-# Backend (serves built assets)
-php artisan serve --port=8000
-# Frontend hot-reload (run in a second terminal for live editing)
-npm run dev
-# OR all-in-one (server + queue + vite + logs)
-composer run dev
+php artisan serve --port=8000      # backend (serves built assets)
+npm run dev                        # Vite HMR (second terminal, for live editing)
+# OR: composer run dev             # server + queue + vite + logs
+npm run build                      # rebuild assets if not running `npm run dev`
 ```
-After editing React without `npm run dev` running, rebuild: `npm run build`.
+**Checks before commit (CI runs these):** `vendor/bin/pint --parallel`,
+`npm run lint`, `npm run build`, `php artisan test`.
 
 - **Public site:** http://localhost:8000
-- **Admin panel:** http://localhost:8000/admin
-  - Login: `admin@marineservices.test` / `password`
-  - (seeded via `database/seeders/AdminUserSeeder.php`)
+- **Admin:** http://localhost:8000/admin → unified login → `admin@marineservices.test` / `password`
 
 ---
 
 ## 4. What's Been Built
 
-**Public marketing site** (marine navy + sky/cyan, fully responsive, light + dark):
-- `resources/js/pages/welcome.tsx` — Home (hero, stats, services preview, why-us, testimonial, CTA)
-- `resources/js/pages/services.tsx` — 6 service cards
-- `resources/js/pages/fleet.tsx` — fleet/equipment cards
-- `resources/js/pages/about.tsx` — story, stats, values
-- `resources/js/pages/contact.tsx` — details + enquiry form (client-side only)
-- `resources/js/layouts/public-layout.tsx` — shared nav + footer + auth links + theme toggle
-- `resources/js/components/theme-toggle.tsx` — Sun/Moon light/dark toggle (uses `useAppearance`)
+### Public marketing site (marine navy + sky/cyan, responsive, light + dark)
+Pages in `resources/js/pages/`: `welcome` (home), `services`, `fleet`, `about`, `contact`.
+- Shared `resources/js/layouts/public-layout.tsx` — nav + footer + theme toggle + auth area
+  (logged out: Log in/Sign up; logged in: avatar dropdown with Settings / Admin / Log out).
+- `resources/js/components/theme-toggle.tsx` — light/dark toggle (`useAppearance`).
+- All pages render **live DB content** via `App\Http\Controllers\PageController` +
+  globally-shared `siteSettings` (see §5). Routes are plain `Route::get` in `routes/web.php`.
 
-**Auth pages** (redesigned to match, light + dark):
-- Split-screen marine layout: `resources/js/layouts/auth/auth-simple-layout.tsx`
-- "Back to website" button on login/register
-- `resources/js/pages/auth/login.tsx`, `register.tsx` (sky submit buttons)
+### Admin (Phase 2) — Filament at `/admin`
+- Resources (CRUD, drag-reorder by `sort_order`, publish toggle), grouped **Content**:
+  Services (curated icon dropdown), Fleet & Equipment, Team Members, Testimonials.
+- **Settings** group: Site Settings (singleton resource) — company name, tagline, contact
+  details, hero copy, stats + values (repeaters). Edits appear on the site immediately.
+- **No Filament Dashboard** — `/admin` redirects to the first resource. "Back to website"
+  link is a **user-menu item** (avatar dropdown), Sign out is Filament's built-in.
+- Access gated by `User::canAccessPanel()` → `is_admin`.
 
-**Admin:** Filament installed; panel at `/admin`. No resources/screens built yet.
+### Models / migrations
+`Service`, `FleetItem`, `TeamMember`, `Testimonial`, `SiteSetting` + `is_admin` on `users`.
+Seeded by `ContentSeeder` (placeholders) and `AdminUserSeeder` (admin) via `DatabaseSeeder`.
 
-**Routing:** `routes/web.php` uses `Route::inertia()` for public pages.
-Public pages use **plain string hrefs** (not Wayfinder) for nav.
+### Auth (unified)
+- One login for everyone. Filament has **no own login** (removed `->login()`); guests at
+  `/admin` redirect to the app `/login`, then back. Marine split-screen auth layout with
+  "Back to website".
+- Post-login lands on **home** (`config/fortify.php` `home` = `/`).
+- **Customer dashboard fully removed** (route, page, `app-header`/`app-sidebar` nav point to
+  home). Profile + logout live in the public header avatar dropdown.
+- **Settings pages** (`settings/profile|security|appearance`) now render inside the marine
+  `PublicLayout` (see `resources/js/layouts/settings/layout.tsx`), not the starter app-shell.
 
 ---
 
 ## 5. Key Decisions & Notes
 
-- **Layout resolver** (`resources/js/app.tsx`): public pages (`welcome`, `services`,
-  `fleet`, `about`, `contact`) return `null` (no global app layout) so they DON'T get
-  the dashboard sidebar. New public pages MUST be added to that list.
-- **Dark mode:** uses the `.dark` class + `dark:` Tailwind variants. Toggle is global
-  (also affects dashboard/settings). `@custom-variant dark` is configured in
-  `resources/css/app.css`.
-  - **Gotcha:** any `group-hover:`/`hover:` colour that also has a `dark:` base needs a
-    paired `dark:group-hover:`/`dark:hover:` variant, or the dark base overrides the hover.
-- **SEO/SSR:** site is client-rendered (Inertia, no SSR). Raw HTML is a near-empty shell
-  — fine for users, but **enable Inertia SSR before launch** for SEO/social previews.
-- **Registration is open** to the public. Disable/hide if you want sign-ups closed until
-  a customer portal exists (Phase 4).
-- **APP_NAME** = "Marine Services" (placeholder) in `.env`.
+- **Layout resolver** (`resources/js/app.tsx`): public pages (`welcome|services|fleet|about|contact`)
+  return `null`; `auth/*` → `AuthLayout`; `settings/*` → `SettingsLayout` (which wraps `PublicLayout`).
+  New public pages MUST be added to the `null` list or they get a wrapping layout.
+- **Shared site settings:** `app/Http/Middleware/HandleInertiaRequests.php` shares `siteSettings`
+  globally (guarded by `Schema::hasTable`). The layout/footer + hero/stats/about read from it.
+- **Service icons:** stored as string keys; mapped to lucide in `resources/js/lib/icons.ts`.
+  Keep keys in sync with the Select options in `ServiceForm.php`.
+- **Theme:** `--primary` token set to **sky** in `resources/css/app.css` (so all shadcn buttons
+  match the brand). Dark mode via `.dark` class + `dark:` variants.
+  - **Gotcha:** a `group-hover:`/`hover:` colour that also has a `dark:` base needs a paired
+    `dark:group-hover:`/`dark:hover:` variant, or the dark base wins.
+- **Filament home redirect** (`RedirectToHomeController`) targets the **first navigation item** —
+  do NOT add a top-level `navigationItems` entry that links away (it'll hijack `/admin`). External
+  links belong in `userMenuItems` (that's where "Back to website" lives).
+- **App needs PHP ≥ 8.4.1** (locked Symfony 8.1). CI tests only on 8.4 (`.github/workflows/tests.yml`).
+- **SEO/SSR:** client-rendered (no SSR). Enable Inertia SSR before launch for SEO/social previews.
+- **Registration is open** to the public (customers get no admin access). Disable if unwanted.
 
 ---
 
-## 6. Placeholders To Replace (need real info)
+## 6. Placeholders To Replace (now editable in `/admin`, not in code)
 
-- **Brand:** company name + tagline, logo (currently an Anchor icon), colours (navy + sky/cyan)
-- **Contact details** (footer + contact page): address, email, phone, hours
-  — currently `Marina Drive, Harbourside` / `hello@marineservices.test` / `+00 0000 000000`
-- **Home:** hero headline, 4 stats (20+ yrs, 1,200+ vessels, 24/7, 100%), 3 featured services, 3 why-us points, testimonial
-- **Services:** 6 service cards (titles + descriptions)
-- **Fleet:** 4 equipment items + real photos (currently gradient + ship icon)
-- **About:** company story (2 paras), stats box, 3 values
-- **Contact:** form confirmation copy
+- **Site Settings:** company name, tagline, address/email/phone/hours, hero heading/subtext,
+  stats, about story + values. (`APP_NAME` in `.env` is a separate, secondary placeholder.)
+- **Services / Fleet / Team / Testimonials:** all editable rows (seeded with placeholder copy).
+- **Brand:** logo is an Anchor icon; colours navy + sky/cyan. Real photos for Fleet/Team are
+  deferred (need object storage — see §10).
 
 ---
 
-## 7. Uncommitted Changes (as of this checkpoint)
+## 7. Git Status
 
-Initial commit `cf2f726` = Phase 1 scaffold. Since then, **uncommitted**:
-1. Inner-page sidebar fix (`app.tsx` layout resolver)
-2. Login/Sign-up links added to public nav
-3. Auth pages redesigned + "Back" button
-4. Auth component contrast fixes (text-link, passkey-verify)
-5. Full dark mode + on-page theme toggle (marketing **and** auth)
-6. Dark-mode icon hover fix (services + home)
-7. This `CHECKPOINT.md`
+- `cf2f726` — Phase 1 scaffold
+- `5224ec6` — Phase 1 UI (dark mode, nav auth links, auth redesign)
+- `11b962d` / `3c078d6` — Docker deploy config (Render + Neon)
+- `a2f7c6b` / `c69d6b4` — CI green (formatting + PHP 8.4-only test matrix)
+- **`<this commit>`** — Phase 2 (admin + DB content) + unified auth + dashboard removal +
+  admin/settings redesign
 
-> Next action the user paused before: **committing** the above.
+Remote: `https://github.com/jhong03/Marine-Services-Website` (branch `main`). CI (lint + tests)
+is green. **Render uses the public-repo deploy** → push then **Manual Deploy** in the Render
+dashboard (auto-deploy is off unless the GitHub App is connected to the `jhong03` account).
 
 ---
 
 ## 8. Roadmap / Next Steps
 
-- **Phase 2 — Admin panel (next):** Filament resources so staff can manage
-  Services, Fleet, Team, and view Enquiries. Then bind public pages to DB content.
-- **Phase 3 — Contact form backend:** persist enquiries to DB + email the team
-  (replace the client-side stub in `contact.tsx`).
+- **Phase 3 — Enquiries / contact backend:** add an `Enquiry` model + Filament inbox, wire the
+  contact form (`contact.tsx`) to persist + email (currently a client-side stub).
 - **Phase 4 (optional) — Customer portal:** accounts, bookings, invoices/payments.
-- **Pre-launch:** real content/branding, Inertia SSR for SEO, switch DB to
-  MySQL/Postgres, production `.env`, deploy.
+- **Real content/branding:** fill in via `/admin`.
+- **Pre-launch:** Inertia SSR for SEO, object storage for image uploads, production `.env`,
+  change the seeded admin password, decide on open registration.
 
 ---
 
 ## 9. Useful References
 
 - Memory notes: `C:\Users\ojh20\.claude\projects\c--Users-ojh20-Downloads-MarineServiceWebsite\memory\`
-  (`project-stack.md`, `env-setup.md`)
-- Laravel docs: https://laravel.com/docs
-- Filament docs: https://filamentphp.com/docs
-- Inertia docs: https://inertiajs.com
-- Laravel Cloud: https://cloud.laravel.com
+- Laravel: https://laravel.com/docs · Filament: https://filamentphp.com/docs · Inertia: https://inertiajs.com
 
 ---
 
 ## 10. Deployment — Render + Neon (free, no card)
 
-> Laravel Cloud / Fly / Railway all now require a card. Chosen no-card path:
-> **Render** (free web service, runs our Docker image) + **Neon** (free Postgres).
-> Code is on GitHub: `https://github.com/jhong03/Marine-Services-Website` (branch `main`).
+> Laravel Cloud / Fly / Railway require a card. Chosen no-card path: **Render** (free web
+> service, runs our Docker image) + **Neon** (free Postgres).
 
-**Repo deploy files (already committed):**
-- `Dockerfile` — single image with PHP 8.4 + Node; installs deps, builds assets
-  (Wayfinder needs PHP at build), boots with `migrate` → seed admin → `php artisan serve`.
-- `.dockerignore` — keeps vendor/node_modules/.env/sqlite out of the image.
-- `bootstrap/app.php` — `trustProxies(at: '*')` so HTTPS/asset URLs are correct behind Render.
+**Repo deploy files (committed):**
+- `Dockerfile` — single PHP 8.4 + Node image; installs deps, builds assets (Wayfinder needs PHP),
+  boots with `migrate` → `db:seed --force` (admin + content) → `php artisan serve`.
+- `.dockerignore`; `bootstrap/app.php` has `trustProxies(at: '*')` for HTTPS behind Render.
 
-**Step 1 — Neon (database):**
-1. Sign up free at https://neon.tech (no card). Create a project (pick a region near Render's).
-2. Copy the **connection string** (looks like `postgresql://user:pass@ep-xxx.region.aws.neon.tech/dbname?sslmode=require`).
+**Step 1 — Neon:** sign up (no card) → create project → copy the connection string
+(`postgresql://user:pass@ep-xxx.region.aws.neon.tech/dbname?sslmode=require`).
 
-**Step 2 — Render (web service):**
-1. Sign up free at https://render.com (no card for free web services). Connect GitHub.
-2. **New + → Web Service** → pick the `Marine-Services-Website` repo.
-3. Runtime: **Docker** (auto-detected from the `Dockerfile`). Instance type: **Free**.
-4. **Environment variables:**
-   - `APP_NAME=Marine Services`
-   - `APP_ENV=production`
-   - `APP_DEBUG=true` (keep on while testing so errors show)
-   - `APP_KEY=` → generate locally with `php artisan key:generate --show` and paste the `base64:...` value
-   - `APP_URL=https://<your-service-name>.onrender.com` (the URL Render assigns — name it first, then set this)
-   - `DB_CONNECTION=pgsql`
-   - `DB_URL=<the Neon connection string from Step 1>`  ← simplest; Laravel parses the whole URL
-   - (`SESSION_DRIVER`/`CACHE_STORE`/`QUEUE_CONNECTION` default to `database` — tables exist via migrations)
-5. **Create Web Service** → Render builds the image and starts it. The container runs migrations
-   and seeds the admin user automatically on boot.
-6. Open the `…onrender.com` URL, share with testers. Admin at `/admin`
-   (`admin@marineservices.test` / `password`).
+**Step 2 — Render:** New → Web Service → for the repo use the **Public Git Repository** tab and
+paste `https://github.com/jhong03/Marine-Services-Website` (Render's connected GitHub account is
+`JY-21`, which can't see the `jhong03` repo). Runtime **Docker**, instance **Free**. Env vars:
+- `APP_NAME=Marine Services`, `APP_ENV=production`, `APP_DEBUG=true`
+- `APP_KEY=` → `php artisan key:generate --show` and paste
+- `APP_URL=https://<service>.onrender.com`
+- `DB_CONNECTION=pgsql`, `DB_URL=<Neon connection string>`
 
-**Notes / caveats:**
-- **Free Render instances sleep after ~15 min idle** → first hit takes ~30–60s to wake, then fast.
-- `php artisan serve` is a test-grade server (`PHP_CLI_SERVER_WORKERS=4` set for some concurrency).
-  Fine for a handful of testers; swap to FrankenPHP/Octane or nginx+fpm for real traffic later.
-- **Security:** seeded admin password is `password` and `/admin` is public — change it before sharing
-  the link widely. Public **registration is also open** — disable if unwanted.
-- Docker couldn't be built locally (Docker not installed) — Render's build log is the first real test.
-- File uploads later (Fleet photos) need object storage; ephemeral container disk won't persist them.
+On boot the container migrates + seeds. Open the URL; admin at `/admin`.
+
+**Caveats:** free instances sleep after ~15 min (slow first hit); `php artisan serve` is
+test-grade; change the seeded admin password before sharing widely; image uploads need object
+storage (ephemeral disk won't persist).

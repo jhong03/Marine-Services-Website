@@ -44,4 +44,4 @@ EXPOSE 8000
 # On boot: run migrations, ensure the admin user exists, then serve.
 # PHP_CLI_SERVER_WORKERS lets the built-in server handle concurrent requests.
 ENV PHP_CLI_SERVER_WORKERS=4
-CMD ["sh", "-c", "php artisan migrate --force && (php artisan db:seed --class=AdminUserSeeder --force || true) && (php artisan storage:link || true) && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
+CMD ["sh", "-c", "php artisan migrate --force && (php artisan db:seed --force || true) && (php artisan storage:link || true) && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]

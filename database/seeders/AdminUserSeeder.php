@@ -14,6 +14,11 @@ class AdminUserSeeder extends Seeder
             ['name' => 'Admin', 'password' => 'password'],
         );
 
+        // Ensure the account can reach the Filament admin panel.
+        if (! $user->is_admin) {
+            $user->forceFill(['is_admin' => true])->save();
+        }
+
         $this->command->info('Admin user ready: '.$user->email.' (id '.$user->id.')');
     }
 }

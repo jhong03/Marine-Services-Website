@@ -13,6 +13,26 @@
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
+    /* Heritage display serif — headings, pull-quotes, numerals. */
+    --font-serif: 'Lora', ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+
+    /* --- Weathered-heritage brand palette ---------------------------------
+       Aged paper, deep navy, brass + rope tan, timber brown. These become
+       Tailwind utilities (bg-paper, text-brass, border-seafog, …). Dark-mode
+       swaps are applied per-element with `dark:` variants. */
+    --color-paper: #f4efe6; /* aged-paper page background */
+    --color-paper-deep: #ece2d1; /* slightly sunk panel */
+    --color-surface: #fbf8f2; /* card / raised surface */
+    --color-ink: #1b2a3a; /* deep navy ink (primary text) */
+    --color-ink-soft: #586472; /* muted body text */
+    --color-navy: #17283a; /* deep navy sections */
+    --color-navy-deep: #101e2c; /* darkest navy */
+    --color-brass: #9e7330; /* antique brass — accents on light */
+    --color-brass-bright: #cda35c; /* brass — accents on dark */
+    --color-rope: #c8a36a; /* rope tan */
+    --color-timber: #6b4f3a; /* timber brown */
+    --color-seafog: #e3d9c6; /* hairline borders on paper */
+
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
@@ -62,74 +82,76 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: var(--color-sky-600);
-    --primary-foreground: var(--color-white);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
+    /* Warm, paper-and-brass light theme (drives shadcn-based UI too). */
+    --background: #f4efe6;
+    --foreground: #1b2a3a;
+    --card: #fbf8f2;
+    --card-foreground: #1b2a3a;
+    --popover: #fbf8f2;
+    --popover-foreground: #1b2a3a;
+    --primary: #9e7330; /* antique brass */
+    --primary-foreground: #fbf8f2;
+    --secondary: #ece2d1;
+    --secondary-foreground: #1b2a3a;
+    --muted: #ece2d1;
+    --muted-foreground: #586472;
+    --accent: #ece2d1;
+    --accent-foreground: #1b2a3a;
     --destructive: oklch(0.577 0.245 27.325);
     --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.87 0 0);
+    --border: #e3d9c6;
+    --input: #e0d4bf;
+    --ring: #9e7330;
     --chart-1: oklch(0.646 0.222 41.116);
     --chart-2: oklch(0.6 0.118 184.704);
     --chart-3: oklch(0.398 0.07 227.392);
     --chart-4: oklch(0.828 0.189 84.429);
     --chart-5: oklch(0.769 0.188 70.08);
     --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.87 0 0);
+    --sidebar: #fbf8f2;
+    --sidebar-foreground: #1b2a3a;
+    --sidebar-primary: #9e7330;
+    --sidebar-primary-foreground: #fbf8f2;
+    --sidebar-accent: #ece2d1;
+    --sidebar-accent-foreground: #1b2a3a;
+    --sidebar-border: #e3d9c6;
+    --sidebar-ring: #9e7330;
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.145 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.145 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: var(--color-sky-500);
-    --primary-foreground: var(--color-white);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
+    /* Deep-navy night theme with bright brass accents. */
+    --background: #101e2c;
+    --foreground: #f0e9da;
+    --card: #17283a;
+    --card-foreground: #f0e9da;
+    --popover: #17283a;
+    --popover-foreground: #f0e9da;
+    --primary: #cda35c; /* bright brass */
+    --primary-foreground: #101e2c;
+    --secondary: #1d3145;
+    --secondary-foreground: #f0e9da;
+    --muted: #1d3145;
+    --muted-foreground: #a9b4c0;
+    --accent: #1d3145;
+    --accent-foreground: #f0e9da;
     --destructive: oklch(0.396 0.141 25.723);
     --destructive-foreground: oklch(0.637 0.237 25.331);
-    --border: oklch(0.269 0 0);
-    --input: oklch(0.269 0 0);
-    --ring: oklch(0.439 0 0);
+    --border: #2a3b4d;
+    --input: #2a3b4d;
+    --ring: #cda35c;
     --chart-1: oklch(0.488 0.243 264.376);
     --chart-2: oklch(0.696 0.17 162.48);
     --chart-3: oklch(0.769 0.188 70.08);
     --chart-4: oklch(0.627 0.265 303.9);
     --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.985 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(0.269 0 0);
-    --sidebar-ring: oklch(0.439 0 0);
+    --sidebar: #17283a;
+    --sidebar-foreground: #f0e9da;
+    --sidebar-primary: #cda35c;
+    --sidebar-primary-foreground: #101e2c;
+    --sidebar-accent: #1d3145;
+    --sidebar-accent-foreground: #f0e9da;
+    --sidebar-border: #2a3b4d;
+    --sidebar-ring: #cda35c;
 }
 
 @layer base {
@@ -139,5 +161,26 @@
 
     body {
         @apply bg-background text-foreground;
+        font-feature-settings:
+            'liga' 1,
+            'calt' 1;
+    }
+}
+
+@layer utilities {
+    /* Faint fractal-noise overlay for an aged-paper / printed feel. Drop an
+       absolutely-positioned <div class="paper-grain"> inside a section. */
+    .paper-grain {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 160px 160px;
+    }
+
+    /* Small-caps brass eyebrow rule used above section headings. */
+    .heritage-rule {
+        background-image: repeating-linear-gradient(
+            90deg,
+            currentColor 0 6px,
+            transparent 6px 12px
+        );
     }
 }

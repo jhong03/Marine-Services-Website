@@ -1,6 +1,12 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { ArrowRight, Compass, Heart, Users } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import {
+    CompassRose,
+    PageBanner,
+    RopeDivider,
+    SectionHeading,
+} from '@/components/marine';
 import PublicLayout from '@/layouts/public-layout';
 import type { CoreValue, Stat, TeamMember } from '@/types';
 
@@ -10,24 +16,24 @@ const DEFAULT_VALUES: CoreValue[] = [
     {
         title: 'Craftsmanship',
         description:
-            'We do the job properly the first time, with attention to every detail.',
+            'We do the job properly the first time, with care taken over every detail — the way it ought to be done.',
     },
     {
         title: 'Honesty',
         description:
-            'Clear quotes, straight advice, and no work done without your say-so.',
+            'Clear quotes, straight advice, and never a spanner lifted without your say-so.',
     },
     {
         title: 'Local & loyal',
         description:
-            'A part of the boating community, looking after our customers for the long haul.',
+            "We're part of the boating community, looking after our neighbours and their boats for the long haul.",
     },
 ];
 
 const DEFAULT_STATS: Stat[] = [
     { value: '20+', label: 'Years experience' },
-    { value: '1,200+', label: 'Vessels serviced' },
-    { value: '15', label: 'Team members' },
+    { value: '1,200+', label: 'Vessels cared for' },
+    { value: '15', label: 'Hands on deck' },
     { value: '24/7', label: 'Emergency support' },
 ];
 
@@ -56,7 +62,7 @@ export default function About({ team }: Props) {
         : DEFAULT_STATS;
     const storyParagraphs = (
         siteSettings?.about_story ??
-        "Marine Services was founded with a simple goal: deliver dependable, honest marine servicing the local boating community can trust.\n\nShare your real history and we'll bring it to life."
+        "Marine Services began with a simple promise: dependable, honest marine work the local boating community can trust.\n\nShare your real history and we'll bring it to life right here."
     )
         .split('\n\n')
         .map((p) => p.trim())
@@ -66,39 +72,35 @@ export default function About({ team }: Props) {
         <PublicLayout>
             <Head title="About Us" />
 
-            <section className="bg-gradient-to-br from-slate-900 to-sky-900 text-white dark:from-black dark:to-sky-950">
-                <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-                        About Us
-                    </h1>
-                    <p className="mt-4 max-w-2xl text-lg text-slate-300">
-                        A team of dedicated marine professionals committed to
-                        keeping your vessel in top condition.
-                    </p>
-                </div>
-            </section>
+            <PageBanner eyebrow="Our story" title="About Us">
+                A crew of dedicated marine professionals who've spent their
+                lives around boats — and who treat looking after yours as a
+                point of pride.
+            </PageBanner>
 
             {/* Story + stats */}
-            <section className="bg-white py-20 dark:bg-slate-950">
+            <section className="bg-paper py-20 dark:bg-navy-deep">
                 <div className="mx-auto grid w-full max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-                            Our story
-                        </h2>
-                        <div className="mt-4 space-y-4 text-lg leading-relaxed text-slate-600 dark:text-slate-300">
+                        <SectionHeading
+                            eyebrow="How we started"
+                            title="Built on the water, by people who love it"
+                        />
+                        <div className="mt-6 space-y-4 text-lg leading-relaxed text-ink-soft dark:text-paper/70">
                             {storyParagraphs.map((paragraph, index) => (
                                 <p key={index}>{paragraph}</p>
                             ))}
                         </div>
                     </div>
-                    <div className="rounded-3xl bg-gradient-to-br from-sky-600 to-cyan-500 p-10 text-white shadow-xl">
-                        <div className="grid grid-cols-2 gap-8">
+                    <div className="relative overflow-hidden rounded-3xl bg-navy p-10 text-paper shadow-xl dark:bg-navy">
+                        <CompassRose className="pointer-events-none absolute -top-12 -right-12 h-56 w-56 text-brass-bright/10" />
+                        <div className="relative grid grid-cols-2 gap-8">
                             {stats.map((stat) => (
                                 <div key={stat.label}>
-                                    <div className="text-4xl font-bold">
+                                    <div className="font-serif text-4xl font-semibold text-brass-bright">
                                         {stat.value}
                                     </div>
-                                    <div className="mt-1 text-sm text-sky-100">
+                                    <div className="mt-1.5 text-xs font-semibold tracking-[0.15em] text-paper/60 uppercase">
                                         {stat.label}
                                     </div>
                                 </div>
@@ -110,32 +112,32 @@ export default function About({ team }: Props) {
 
             {/* Team */}
             {team.length > 0 && (
-                <section className="bg-white py-4 pb-20 dark:bg-slate-950">
+                <section className="border-t border-seafog bg-paper-deep/40 py-20 dark:border-navy dark:bg-navy">
                     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div className="mx-auto max-w-2xl text-center">
-                            <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-                                Meet the team
-                            </h2>
-                        </div>
-                        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                        <SectionHeading
+                            center
+                            eyebrow="The crew"
+                            title="Meet the team"
+                        />
+                        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                             {team.map((member) => (
                                 <div
                                     key={member.id}
-                                    className="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800"
+                                    className="rounded-2xl border border-seafog bg-surface p-8 text-center shadow-sm dark:border-navy dark:bg-navy-deep"
                                 >
-                                    <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-sky-600 to-cyan-500 text-lg font-semibold text-white">
+                                    <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-navy font-serif text-lg font-semibold text-brass-bright ring-1 ring-brass/40">
                                         {initials(member.name) || '—'}
                                     </span>
-                                    <h3 className="mt-5 text-lg font-semibold text-slate-900 dark:text-white">
+                                    <h3 className="mt-5 font-serif text-lg font-semibold text-ink dark:text-paper">
                                         {member.name}
                                     </h3>
                                     {member.role && (
-                                        <div className="text-sm font-medium text-sky-600 dark:text-sky-400">
+                                        <div className="mt-0.5 text-xs font-semibold tracking-[0.15em] text-brass uppercase dark:text-brass-bright">
                                             {member.role}
                                         </div>
                                     )}
                                     {member.bio && (
-                                        <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                                        <p className="mt-3 text-sm leading-relaxed text-ink-soft dark:text-paper/65">
                                             {member.bio}
                                         </p>
                                     )}
@@ -147,14 +149,14 @@ export default function About({ team }: Props) {
             )}
 
             {/* Values */}
-            <section className="bg-slate-50 py-20 dark:bg-slate-900">
+            <section className="bg-paper py-20 dark:bg-navy-deep">
                 <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="mx-auto max-w-2xl text-center">
-                        <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-                            What we stand for
-                        </h2>
-                    </div>
-                    <div className="mt-12 grid gap-8 md:grid-cols-3">
+                    <SectionHeading
+                        center
+                        eyebrow="Our values"
+                        title="What we stand for"
+                    />
+                    <div className="mt-14 grid gap-8 md:grid-cols-3">
                         {values.map((value, index) => {
                             const Icon =
                                 VALUE_ICONS[index % VALUE_ICONS.length];
@@ -162,15 +164,15 @@ export default function About({ team }: Props) {
                             return (
                                 <div
                                     key={value.title}
-                                    className="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800"
+                                    className="rounded-2xl border border-seafog bg-surface p-8 text-center shadow-sm dark:border-navy dark:bg-navy"
                                 >
-                                    <span className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-600 dark:bg-sky-950 dark:text-sky-400">
+                                    <span className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-lg bg-navy text-brass-bright ring-1 ring-brass/30 dark:bg-navy-deep">
                                         <Icon className="h-6 w-6" />
                                     </span>
-                                    <h3 className="mt-6 text-xl font-semibold text-slate-900 dark:text-white">
+                                    <h3 className="mt-6 font-serif text-xl font-semibold text-ink dark:text-paper">
                                         {value.title}
                                     </h3>
-                                    <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
+                                    <p className="mt-3 leading-relaxed text-ink-soft dark:text-paper/65">
                                         {value.description}
                                     </p>
                                 </div>
@@ -180,14 +182,18 @@ export default function About({ team }: Props) {
                 </div>
             </section>
 
-            <section className="bg-slate-900 dark:bg-slate-900">
-                <div className="mx-auto w-full max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
-                    <h2 className="text-3xl font-bold tracking-tight text-white">
+            {/* CTA */}
+            <section className="relative overflow-hidden bg-navy dark:bg-navy-deep">
+                <div className="paper-grain pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-soft-light" />
+                <CompassRose className="pointer-events-none absolute -bottom-20 -left-16 h-80 w-80 text-brass-bright/[0.07]" />
+                <div className="relative mx-auto w-full max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8">
+                    <RopeDivider className="mb-8 text-brass-bright/60" />
+                    <h2 className="font-serif text-3xl font-semibold tracking-tight text-paper sm:text-4xl">
                         Let's look after your vessel
                     </h2>
                     <Link
                         href="/contact"
-                        className="mt-8 inline-flex items-center gap-2 rounded-md bg-sky-500 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-sky-400"
+                        className="mt-9 inline-flex items-center gap-2 rounded-md bg-brass-bright px-6 py-3 text-base font-semibold text-navy-deep shadow-lg shadow-black/20 transition-colors hover:bg-rope"
                     >
                         Contact us
                         <ArrowRight className="h-4 w-4" />

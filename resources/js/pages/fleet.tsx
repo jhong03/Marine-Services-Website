@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { ArrowRight, Ship } from 'lucide-react';
+import { PageBanner, RopeDivider } from '@/components/marine';
 import PublicLayout from '@/layouts/public-layout';
 import type { FleetItem } from '@/types';
 
@@ -12,66 +13,64 @@ export default function Fleet({ fleet }: Props) {
         <PublicLayout>
             <Head title="Fleet & Equipment" />
 
-            <section className="bg-gradient-to-br from-slate-900 to-sky-900 text-white dark:from-black dark:to-sky-950">
-                <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-                        Fleet & Equipment
-                    </h1>
-                    <p className="mt-4 max-w-2xl text-lg text-slate-300">
-                        The right gear for every job — from on-water response to
-                        full haul-out and workshop servicing.
-                    </p>
-                </div>
-            </section>
+            <PageBanner eyebrow="Our gear" title="Fleet & Equipment">
+                The right kit for every job — from quick on-water response to
+                full haul-out and workshop servicing, all maintained to the same
+                standard we hold your boat to.
+            </PageBanner>
 
-            <section className="bg-slate-50 py-20 dark:bg-slate-900">
+            <section className="bg-paper py-20 dark:bg-navy-deep">
                 <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid gap-8 sm:grid-cols-2">
                         {fleet.map((item) => (
-                            <div
+                            <article
                                 key={item.id}
-                                className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800"
+                                className="group overflow-hidden rounded-2xl border border-seafog bg-surface shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-navy/5 dark:border-navy dark:bg-navy"
                             >
-                                <div className="flex h-40 items-center justify-center bg-gradient-to-br from-sky-600 to-cyan-500 text-white">
-                                    <Ship className="h-16 w-16 opacity-90" />
+                                <div className="relative flex h-44 items-center justify-center overflow-hidden bg-navy dark:bg-navy-deep">
+                                    <div className="paper-grain pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-soft-light" />
+                                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-navy via-navy to-timber/40" />
+                                    <Ship className="relative h-16 w-16 text-brass-bright/80 transition-transform duration-500 group-hover:scale-110" />
                                 </div>
                                 <div className="p-6">
                                     <div className="flex items-center justify-between gap-3">
-                                        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                                        <h2 className="font-serif text-lg font-semibold text-ink dark:text-paper">
                                             {item.name}
                                         </h2>
                                         {item.spec && (
-                                            <span className="rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-sky-700 dark:bg-sky-950 dark:text-sky-300">
+                                            <span className="rounded-full border border-brass/30 bg-paper-deep px-3 py-1 text-xs font-semibold tracking-wide text-brass dark:border-brass/40 dark:bg-navy-deep dark:text-brass-bright">
                                                 {item.spec}
                                             </span>
                                         )}
                                     </div>
-                                    <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
+                                    <p className="mt-3 leading-relaxed text-ink-soft dark:text-paper/65">
                                         {item.description}
                                     </p>
                                 </div>
-                            </div>
+                            </article>
                         ))}
                     </div>
 
-                    <p className="mt-10 text-center text-sm text-slate-500 dark:text-slate-400">
-                        Images are placeholders — real photos of your fleet can
-                        be added later.
+                    <p className="mt-10 text-center text-sm text-ink-soft/70 italic dark:text-paper/45">
+                        Photographs are placeholders — real shots of your own
+                        fleet can be dropped in later.
                     </p>
                 </div>
             </section>
 
-            <section className="bg-white py-16 dark:bg-slate-950">
+            <section className="border-t border-seafog bg-paper-deep/50 py-16 dark:border-navy dark:bg-navy">
                 <div className="mx-auto w-full max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                    <RopeDivider className="mb-8" />
+                    <h2 className="font-serif text-2xl font-semibold text-ink dark:text-paper">
                         Need a haul-out or callout?
                     </h2>
-                    <p className="mt-3 text-slate-600 dark:text-slate-400">
-                        Book our equipment and crew for your next service.
+                    <p className="mt-3 text-ink-soft dark:text-paper/65">
+                        Book our equipment and crew for your next service —
+                        we'll sort the rest.
                     </p>
                     <Link
                         href="/contact"
-                        className="mt-6 inline-flex items-center gap-2 rounded-md bg-sky-600 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-sky-700"
+                        className="mt-7 inline-flex items-center gap-2 rounded-md bg-brass px-6 py-3 text-base font-semibold text-paper transition-colors hover:bg-timber dark:bg-brass-bright dark:text-navy-deep dark:hover:bg-rope"
                     >
                         Get in touch
                         <ArrowRight className="h-4 w-4" />

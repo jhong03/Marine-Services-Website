@@ -1,7 +1,7 @@
 # Marine Services Website — Project Checkpoint
 
 > Resume context for the Marine Services Company website.
-> **Last updated:** 2026-06-07
+> **Last updated:** 2026-06-08
 
 ---
 
@@ -11,10 +11,11 @@ A website for a **Marine Services Company** (boat servicing, repairs, maintenanc
 Goals: smooth UX, strong SEO (local services business), and a simple admin so
 **non-technical staff** can manage content.
 
-**Status:** **Phase 1 + Phase 2 complete.** Public marketing site (light + dark),
-unified auth, and a Filament admin where staff manage all content (which the public
-pages render live from the database). All content is still **placeholder** pending
-real branding/copy.
+**Status:** **Phase 1 + Phase 2 complete**, plus a full **"weathered heritage" visual
+redesign** and a **FrankenPHP + Octane** production runtime. Public marketing site
+(light + dark), unified auth, and a Filament admin where staff manage all content (which
+the public pages render live from the database). All content is still **placeholder**
+pending real branding/copy.
 
 ---
 
@@ -27,10 +28,12 @@ real branding/copy.
 | Frontend | React + Inertia.js | 19 / 3 |
 | Styling | Tailwind CSS | 4 |
 | UI components | shadcn-style + lucide-react icons | — |
+| Fonts | Instrument Sans (body) + **Lora** (serif display, via Bunny Fonts) | — |
 | Admin panel | Filament | 5.6.6 |
 | Database | SQLite (dev) / Postgres (prod via Neon) | — |
 | Testing | Pest | — |
 | Auth | Fortify + starter kit (login, register, 2FA, passkeys) | — |
+| Prod runtime | FrankenPHP + Laravel Octane (worker mode) | — |
 
 Single-codebase Laravel + Inertia (not Next.js + separate API): less to secure/deploy,
 SSR-capable for SEO, Filament gives a staff admin almost for free.
@@ -64,10 +67,13 @@ npm run build                      # rebuild assets if not running `npm run dev`
 
 ## 4. What's Been Built
 
-### Public marketing site (marine navy + sky/cyan, responsive, light + dark)
+### Public marketing site ("weathered heritage": aged paper, deep navy, brass + rope; light + dark)
 Pages in `resources/js/pages/`: `welcome` (home), `services`, `fleet`, `about`, `contact`.
 - Shared `resources/js/layouts/public-layout.tsx` — nav + footer + theme toggle + auth area
   (logged out: Log in/Sign up; logged in: avatar dropdown with Settings / Admin / Log out).
+- `resources/js/components/marine.tsx` — shared heritage pieces reused across every page:
+  `Eyebrow` (brass small-caps label), `PageBanner` (navy hero w/ compass watermark + wave edge),
+  `WaveEdge`, `RopeDivider`, `SectionHeading`, `CompassRose`. **Reuse these** for new sections.
 - `resources/js/components/theme-toggle.tsx` — light/dark toggle (`useAppearance`).
 - All pages render **live DB content** via `App\Http\Controllers\PageController` +
   globally-shared `siteSettings` (see §5). Routes are plain `Route::get` in `routes/web.php`.
@@ -106,10 +112,18 @@ Seeded by `ContentSeeder` (placeholders) and `AdminUserSeeder` (admin) via `Data
   globally (guarded by `Schema::hasTable`). The layout/footer + hero/stats/about read from it.
 - **Service icons:** stored as string keys; mapped to lucide in `resources/js/lib/icons.ts`.
   Keep keys in sync with the Select options in `ServiceForm.php`.
-- **Theme:** `--primary` token set to **sky** in `resources/css/app.css` (so all shadcn buttons
-  match the brand). Dark mode via `.dark` class + `dark:` variants.
+- **Design system / theme** (`resources/css/app.css`): "weathered heritage" palette as Tailwind
+  utilities — `bg-paper`/`paper-deep`/`surface`, `text-ink`/`ink-soft`, `bg-navy`/`navy-deep`,
+  `text-brass`/`brass-bright`, `rope`, `timber`, `seafog` (hairline borders). The shadcn semantic
+  tokens (`--background`/`--foreground`/`--primary`=brass/…) are also remapped, so buttons,
+  dropdowns and forms inherit the warmth. Headings use `font-serif` (Lora). Utilities `.paper-grain`
+  (noise overlay) and dark mode via `.dark` + `dark:` variants. These are **fixed-hex** utilities, so
+  dark mode is per-element `dark:` (e.g. `bg-paper dark:bg-navy-deep`), not automatic.
   - **Gotcha:** a `group-hover:`/`hover:` colour that also has a `dark:` base needs a paired
     `dark:group-hover:`/`dark:hover:` variant, or the dark base wins.
+  - **Gotcha:** the starter kit hardcoded `sky`/`slate` in a few shared components
+    (`text-link.tsx`, `passkey-verify.tsx`, auth submit buttons) — these bypass the theme and were
+    re-pointed at brass/paper/navy. Watch for the same when pulling in new starter components.
 - **Filament home redirect** (`RedirectToHomeController`) targets the **first navigation item** —
   do NOT add a top-level `navigationItems` entry that links away (it'll hijack `/admin`). External
   links belong in `userMenuItems` (that's where "Back to website" lives).
@@ -124,8 +138,8 @@ Seeded by `ContentSeeder` (placeholders) and `AdminUserSeeder` (admin) via `Data
 - **Site Settings:** company name, tagline, address/email/phone/hours, hero heading/subtext,
   stats, about story + values. (`APP_NAME` in `.env` is a separate, secondary placeholder.)
 - **Services / Fleet / Team / Testimonials:** all editable rows (seeded with placeholder copy).
-- **Brand:** logo is an Anchor icon; colours navy + sky/cyan. Real photos for Fleet/Team are
-  deferred (need object storage — see §10).
+- **Brand:** logo is a brass anchor on a navy "porthole"; palette is aged paper + deep navy + brass.
+  Real photos for Fleet/Team are deferred (need object storage — see §10).
 
 ---
 
@@ -135,8 +149,10 @@ Seeded by `ContentSeeder` (placeholders) and `AdminUserSeeder` (admin) via `Data
 - `5224ec6` — Phase 1 UI (dark mode, nav auth links, auth redesign)
 - `11b962d` / `3c078d6` — Docker deploy config (Render + Neon)
 - `a2f7c6b` / `c69d6b4` — CI green (formatting + PHP 8.4-only test matrix)
-- **`<this commit>`** — Phase 2 (admin + DB content) + unified auth + dashboard removal +
-  admin/settings redesign
+- `8e0425f` — Phase 2 (admin + DB content) + unified auth + dashboard removal + admin/settings redesign
+- `72661f9` / `b462769` — Perf: FrankenPHP + Octane runtime (+ strip frankenphp file caps for Render)
+- **`<this commit>`** — "Weathered heritage" visual redesign across every page + auth/settings;
+  Lora serif; shared `marine.tsx` components; brass theme; cleared sky/slate starter stragglers
 
 Remote: `https://github.com/jhong03/Marine-Services-Website` (branch `main`). CI (lint + tests)
 is green. **Render uses the public-repo deploy** → push then **Manual Deploy** in the Render

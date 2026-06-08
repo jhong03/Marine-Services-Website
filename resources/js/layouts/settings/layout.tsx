@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import type { PropsWithChildren } from 'react';
+import { CompassRose, Eyebrow } from '@/components/marine';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import PublicLayout from '@/layouts/public-layout';
 import { cn } from '@/lib/utils';
@@ -20,19 +21,22 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
     return (
         <PublicLayout>
             {/* Header */}
-            <section className="bg-gradient-to-br from-slate-900 to-sky-900 text-white dark:from-black dark:to-sky-950">
-                <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                    <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <section className="relative overflow-hidden bg-navy text-paper dark:bg-navy-deep">
+                <div className="paper-grain pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-soft-light" />
+                <CompassRose className="pointer-events-none absolute -top-12 -right-16 h-72 w-72 text-brass-bright/[0.08]" />
+                <div className="relative mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+                    <Eyebrow light>Your account</Eyebrow>
+                    <h1 className="mt-4 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
                         Account Settings
                     </h1>
-                    <p className="mt-3 max-w-2xl text-slate-300">
+                    <p className="mt-3 max-w-2xl text-paper/70">
                         Manage your profile and account settings.
                     </p>
                 </div>
             </section>
 
             {/* Body */}
-            <section className="bg-slate-50 py-16 dark:bg-slate-900">
+            <section className="bg-paper py-16 dark:bg-navy-deep">
                 <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 sm:px-6 lg:flex-row lg:px-8">
                     <aside className="lg:w-56 lg:shrink-0">
                         <nav
@@ -46,8 +50,8 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                                     className={cn(
                                         'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                                         isCurrentOrParentUrl(item.href)
-                                            ? 'bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300'
-                                            : 'text-slate-600 hover:bg-white hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white',
+                                            ? 'bg-paper-deep text-brass dark:bg-navy dark:text-brass-bright'
+                                            : 'text-ink-soft hover:bg-paper-deep hover:text-ink dark:text-paper/70 dark:hover:bg-navy dark:hover:text-paper',
                                     )}
                                 >
                                     {item.title}
@@ -57,7 +61,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                     </aside>
 
                     <div className="flex-1">
-                        <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                        <div className="rounded-2xl border border-seafog bg-surface p-8 shadow-sm dark:border-navy dark:bg-navy">
                             <div className="space-y-12">{children}</div>
                         </div>
                     </div>

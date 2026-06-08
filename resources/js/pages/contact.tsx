@@ -1,14 +1,14 @@
 import { Head, usePage } from '@inertiajs/react';
-import { CheckCircle2, Clock, Mail, MapPin, Phone } from 'lucide-react';
+import { Anchor, Clock, Mail, MapPin, Phone } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import { PageBanner } from '@/components/marine';
 import PublicLayout from '@/layouts/public-layout';
 
 const inputClass =
-    'mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30 focus:outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:placeholder-slate-500';
-const labelClass =
-    'block text-sm font-medium text-slate-700 dark:text-slate-300';
+    'mt-1.5 w-full rounded-md border border-seafog bg-paper px-3.5 py-2.5 text-ink shadow-sm transition focus:border-brass focus:ring-2 focus:ring-brass/25 focus:outline-none dark:border-navy dark:bg-navy-deep dark:text-paper dark:placeholder-paper/40';
+const labelClass = 'block text-sm font-medium text-ink dark:text-paper/80';
 
 type Detail = { icon: LucideIcon; label: string; value: string };
 
@@ -19,7 +19,7 @@ export default function Contact() {
     const details: Detail[] = [
         siteSettings?.address && {
             icon: MapPin,
-            label: 'Visit us',
+            label: 'Visit the yard',
             value: siteSettings.address,
         },
         siteSettings?.email && {
@@ -50,32 +50,28 @@ export default function Contact() {
         <PublicLayout>
             <Head title="Contact" />
 
-            <section className="bg-gradient-to-br from-slate-900 to-sky-900 text-white dark:from-black dark:to-sky-950">
-                <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-                        Get in Touch
-                    </h1>
-                    <p className="mt-4 max-w-2xl text-lg text-slate-300">
-                        Tell us about your vessel and what you need — we'll get
-                        back to you with a quote.
-                    </p>
-                </div>
-            </section>
+            <PageBanner eyebrow="Say hello" title="Get in Touch">
+                Tell us about your vessel and what you need — we'll come back to
+                you with an honest quote and a friendly word.
+            </PageBanner>
 
-            <section className="bg-slate-50 py-20 dark:bg-slate-900">
+            <section className="bg-paper py-20 dark:bg-navy-deep">
                 <div className="mx-auto grid w-full max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
                     {/* Details */}
                     <div className="space-y-6">
+                        <h2 className="font-serif text-xl font-semibold text-ink dark:text-paper">
+                            Drop by or drop us a line
+                        </h2>
                         {details.map((detail) => (
                             <div key={detail.label} className="flex gap-4">
-                                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-sky-50 text-sky-600 dark:bg-sky-950 dark:text-sky-400">
+                                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-navy text-brass-bright ring-1 ring-brass/30 dark:bg-navy">
                                     <detail.icon className="h-5 w-5" />
                                 </span>
                                 <div>
-                                    <div className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                                    <div className="text-xs font-semibold tracking-[0.15em] text-ink-soft uppercase dark:text-paper/55">
                                         {detail.label}
                                     </div>
-                                    <div className="text-base font-semibold text-slate-900 dark:text-white">
+                                    <div className="mt-0.5 text-base font-semibold text-ink dark:text-paper">
                                         {detail.value}
                                     </div>
                                 </div>
@@ -85,18 +81,20 @@ export default function Contact() {
 
                     {/* Form */}
                     <div className="lg:col-span-2">
-                        <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                        <div className="rounded-2xl border border-seafog bg-surface p-8 shadow-sm dark:border-navy dark:bg-navy">
                             {submitted ? (
                                 <div className="flex flex-col items-center justify-center py-12 text-center">
-                                    <CheckCircle2 className="h-14 w-14 text-emerald-500" />
-                                    <h2 className="mt-4 text-2xl font-semibold text-slate-900 dark:text-white">
+                                    <span className="flex h-16 w-16 items-center justify-center rounded-full bg-navy text-brass-bright ring-1 ring-brass/40">
+                                        <Anchor className="h-8 w-8" />
+                                    </span>
+                                    <h2 className="mt-5 font-serif text-2xl font-semibold text-ink dark:text-paper">
                                         Thanks for reaching out!
                                     </h2>
-                                    <p className="mt-2 max-w-md text-slate-600 dark:text-slate-400">
+                                    <p className="mt-2 max-w-md text-ink-soft dark:text-paper/65">
                                         This is a placeholder confirmation. Once
                                         the backend is wired up (Phase 3), your
-                                        enquiry will be saved and emailed to the
-                                        team.
+                                        enquiry will be saved and emailed
+                                        straight to the team.
                                     </p>
                                 </div>
                             ) : (
@@ -167,7 +165,7 @@ export default function Contact() {
                                     </div>
                                     <button
                                         type="submit"
-                                        className="w-full rounded-md bg-sky-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-sky-700 sm:w-auto"
+                                        className="w-full rounded-md bg-brass px-6 py-3 text-base font-semibold text-paper shadow-sm transition-colors hover:bg-timber sm:w-auto dark:bg-brass-bright dark:text-navy-deep dark:hover:bg-rope"
                                     >
                                         Send enquiry
                                     </button>

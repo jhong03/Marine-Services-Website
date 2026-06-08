@@ -1,46 +1,62 @@
 import { Link } from '@inertiajs/react';
-import { Anchor, ArrowLeft, Waves } from 'lucide-react';
+import { Anchor, ArrowLeft } from 'lucide-react';
+import { CompassRose, Eyebrow } from '@/components/marine';
 import { home } from '@/routes';
 import type { AuthLayoutProps } from '@/types';
+
+function BrandMark({ light = false }: { light?: boolean }) {
+    return (
+        <span
+            className={
+                light
+                    ? 'flex h-9 w-9 items-center justify-center rounded-full bg-paper/10 text-brass-bright ring-1 ring-brass/50'
+                    : 'flex h-9 w-9 items-center justify-center rounded-full bg-navy text-brass-bright ring-1 ring-brass/50'
+            }
+        >
+            <Anchor className="h-5 w-5" />
+        </span>
+    );
+}
 
 export default function AuthSimpleLayout({
     children,
     title,
     description,
 }: AuthLayoutProps) {
+    const year = new Date().getFullYear();
+
     return (
-        <div className="flex min-h-svh bg-white text-slate-800 dark:bg-slate-950 dark:text-slate-200">
-            {/* Marine brand panel (desktop only) */}
-            <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900 to-sky-900 p-12 text-white lg:flex">
-                <div className="absolute inset-0 opacity-20">
-                    <Waves className="absolute -right-12 -bottom-12 h-[28rem] w-[28rem] text-sky-400" />
-                </div>
+        <div className="flex min-h-svh bg-paper text-ink dark:bg-navy-deep dark:text-paper">
+            {/* Heritage brand panel (desktop only) */}
+            <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-navy p-12 text-paper lg:flex dark:bg-navy-deep">
+                <div className="paper-grain pointer-events-none absolute inset-0 opacity-[0.05] mix-blend-soft-light" />
+                <div className="pointer-events-none absolute -top-24 -right-16 h-96 w-96 rounded-full bg-brass/15 blur-3xl" />
+                <CompassRose className="pointer-events-none absolute -right-20 -bottom-24 h-[28rem] w-[28rem] text-brass-bright/10" />
 
                 <Link
                     href={home()}
-                    className="relative flex items-center gap-2"
+                    className="relative flex items-center gap-3"
                 >
-                    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-sky-600 to-cyan-500 text-white shadow-sm">
-                        <Anchor className="h-5 w-5" />
-                    </span>
-                    <span className="text-lg font-semibold tracking-tight">
+                    <BrandMark light />
+                    <span className="font-serif text-lg font-semibold tracking-tight">
                         Marine Services
                     </span>
                 </Link>
 
                 <div className="relative max-w-md">
-                    <h2 className="text-3xl leading-tight font-bold">
-                        Your vessel, in expert hands
+                    <Eyebrow light>Welcome aboard</Eyebrow>
+                    <h2 className="mt-5 font-serif text-3xl leading-tight font-semibold">
+                        Your vessel, in trusted hands
                     </h2>
-                    <p className="mt-4 text-slate-300">
-                        Manage your bookings, track your servicing history, and
-                        stay on top of your boat's maintenance — all in one
-                        place.
+                    <p className="mt-4 leading-relaxed text-paper/70">
+                        Manage your bookings, keep an eye on your servicing
+                        history, and stay on top of your boat's maintenance —
+                        all in one tidy place.
                     </p>
                 </div>
 
-                <div className="relative text-sm text-slate-400">
-                    © {new Date().getFullYear()} Marine Services
+                <div className="relative text-sm text-paper/45">
+                    © {year} Marine Services
                 </div>
             </div>
 
@@ -49,7 +65,7 @@ export default function AuthSimpleLayout({
                 <div className="p-6">
                     <Link
                         href={home()}
-                        className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+                        className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-paper-deep hover:text-ink dark:text-paper/70 dark:hover:bg-navy dark:hover:text-paper"
                     >
                         <ArrowLeft className="h-4 w-4" />
                         Back to website
@@ -61,21 +77,19 @@ export default function AuthSimpleLayout({
                         {/* Mobile brand */}
                         <Link
                             href={home()}
-                            className="mb-8 flex items-center justify-center gap-2 lg:hidden"
+                            className="mb-8 flex items-center justify-center gap-3 lg:hidden"
                         >
-                            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-sky-600 to-cyan-500 text-white shadow-sm">
-                                <Anchor className="h-5 w-5" />
-                            </span>
-                            <span className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
+                            <BrandMark />
+                            <span className="font-serif text-lg font-semibold tracking-tight text-ink dark:text-paper">
                                 Marine Services
                             </span>
                         </Link>
 
                         <div className="space-y-2 text-center lg:text-left">
-                            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                            <h1 className="font-serif text-2xl font-semibold tracking-tight text-ink dark:text-paper">
                                 {title}
                             </h1>
-                            <p className="text-sm text-slate-500 dark:text-slate-400">
+                            <p className="text-sm text-ink-soft dark:text-paper/60">
                                 {description}
                             </p>
                         </div>

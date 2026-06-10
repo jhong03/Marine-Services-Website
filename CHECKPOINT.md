@@ -29,6 +29,7 @@ pending real branding/copy.
 | Styling | Tailwind CSS | 4 |
 | UI components | shadcn-style + lucide-react icons | — |
 | Fonts | Instrument Sans (body) + **Lora** (serif display, via Bunny Fonts) | — |
+| Animation | GSAP + ScrollTrigger + Lenis (homepage cinematic only) | — |
 | Admin panel | Filament | 5.6.6 |
 | Database | SQLite (dev) / Postgres (prod via Neon) | — |
 | Testing | Pest | — |
@@ -151,8 +152,10 @@ Seeded by `ContentSeeder` (placeholders) and `AdminUserSeeder` (admin) via `Data
 - `a2f7c6b` / `c69d6b4` — CI green (formatting + PHP 8.4-only test matrix)
 - `8e0425f` — Phase 2 (admin + DB content) + unified auth + dashboard removal + admin/settings redesign
 - `72661f9` / `b462769` — Perf: FrankenPHP + Octane runtime (+ strip frankenphp file caps for Render)
-- **`<this commit>`** — "Weathered heritage" visual redesign across every page + auth/settings;
+- `84b486c` — "Weathered heritage" visual redesign across every page + auth/settings;
   Lora serif; shared `marine.tsx` components; brass theme; cleared sky/slate starter stragglers
+- **`<this commit>`** — Homepage cinematic (scroll-scrubbed frame sequence; GSAP + Lenis);
+  cinematic copy fields in Site Settings; placeholder frame pipeline (see §11)
 
 Remote: `https://github.com/jhong03/Marine-Services-Website` (branch `main`). CI (lint + tests)
 is green. **Render uses the public-repo deploy** → push then **Manual Deploy** in the Render
@@ -166,6 +169,8 @@ dashboard (auto-deploy is off unless the GitHub App is connected to the `jhong03
   contact form (`contact.tsx`) to persist + email (currently a client-side stub).
 - **Phase 4 (optional) — Customer portal:** accounts, bookings, invoices/payments.
 - **Real content/branding:** fill in via `/admin`.
+- **Homepage cinematic — real footage:** replace the placeholder frames with a real drone clip
+  (see §11 + `scripts/extract-frames.md`).
 - **Pre-launch:** Inertia SSR for SEO, object storage for image uploads, production `.env`,
   change the seeded admin password, decide on open registration.
 
@@ -218,3 +223,57 @@ built-in health route — to keep it warm during testing.
 the seeded admin password before sharing widely; image uploads need object storage (ephemeral disk
 won't persist). For a genuinely snappy always-on demo, a paid Starter instance or a tunnel from your
 local machine (full CPU) will beat free hosting.
+
+---
+
+## 11. Homepage cinematic system
+
+The home page (`welcome`) opens with an **Apple-style scroll-scrubbed frame
+sequence**: as you scroll, a `<canvas>` plays pre-extracted WebP frames (drone
+descending over water toward a vessel) while serif overlay "moments" fade in/out,
+then the page **releases** into the normal DB-driven content sections. There is
+**no real-time 3D** — it's just frames on a canvas driven by scroll.
+
+**Files**
+- `resources/js/components/cinematic/config.ts` — **`FRAME_COUNT`** (single source
+  of truth), `FRAME_EXT`, `framePath()`, pin distances, preload count.
+- `resources/js/components/cinematic/useFrameSequence.ts` — imperative canvas
+  driver: progressive image loading (first 20 eager, rest lazy), DPR-aware
+  cover-fit draw, `ResizeObserver` sizing. **No per-scroll React state.**
+- `resources/js/components/cinematic/CinematicScroll.tsx` — pins the section
+  (GSAP `ScrollTrigger`, `scrub`), maps progress → frame index + overlay fades,
+  Lenis smooth-scroll, and the fallbacks. Reusable (could drive e.g. the fleet
+  page later). Takes `moments[]` + `onHeroVisibilityChange`.
+- `resources/js/pages/welcome.tsx` — builds the `moments` from **DB copy**
+  (company name/tagline, stats, `cinematic_capability`, `cinematic_handoff`),
+  renders its **own** `SiteHeader overlay solid={navSolid}` + `SiteFooter`
+  (welcome does NOT use `PublicLayout`), then the release sections (reusing
+  `marine.tsx`). It stays in the `null` layout-resolver list in `app.tsx`.
+
+**Overlay copy is DB-driven** (Site Settings): `company_name`, `tagline`, `stats`
+(trust line), `cinematic_capability`, `cinematic_handoff`. The last two are
+editable in Filament (Site Settings) and seeded by `ContentSeeder`.
+
+**Frame pipeline** — frames live in `public/cinematic/frames/` (full ~1200px) and
+`frames-sm/` (mobile ~720px), named `frame-%04d.webp`, 1-indexed. They are
+**static files** (FrankenPHP/Caddy serves them directly).
+- **Current footage:** an aerial cruise-ship clip (`cruisedroneshot.mp4`, gitignored)
+  sampled to **129 frames** (`FRAME_COUNT = 129`), ~9.2 MB full set. A baked-in
+  performance HUD was cropped out (`crop=1920:952:0:64`). The closing frames are a
+  bright top-down wake, so `CinematicScroll` ramps an **end-fade to navy** over the
+  last ~18% of scroll to hand off cleanly into the release section.
+- **Swap in new footage:** drop a clip in the root and run the ffmpeg commands in
+  `scripts/extract-frames.md` — note `-c:v libwebp -f image2` is REQUIRED (else
+  ffmpeg writes one animated webp), then update `FRAME_COUNT`. Budget ≤ ~10 MB.
+- Pure-GD placeholder generator still available: `php scripts/generate-placeholder-frames.php`.
+
+**Fallbacks (built in):** `prefers-reduced-motion` → static first-frame hero +
+first headline, no pin/scrub. Mobile (<768px) → small frame set + shorter pin.
+Canvas is DPR-capped at 2; scroll is passive; pin uses `pinSpacing` (no layout
+shift). The nav is transparent over the cinematic and solidifies as it releases
+(driven by `onHeroVisibilityChange`). Pin distance (`PIN_VH_DESKTOP`, currently
+520) controls scrub speed — larger = slower/more cinematic.
+
+**Possible upgrade:** the current clip is a screen-capture (cropped); a true
+licensed/owned drone shot of the client's own vessel could replace it later via the
+same one-command pipeline.

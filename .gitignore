@@ -24,6 +24,10 @@ yarn-error.log
 /auth.json
 /.fleet
 /.idea
+# Cinematic source footage — only the extracted WebP frames are committed.
+/source.mp4
+/cruisedroneshot.mp4
+/*.mov
 /.nova
 /.vscode
 /.zed

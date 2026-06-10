@@ -12,6 +12,8 @@ export type SiteSettings = {
     instagram_url: string | null;
     hero_heading: string | null;
     hero_subtext: string | null;
+    cinematic_capability: string | null;
+    cinematic_handoff: string | null;
     about_story: string | null;
     stats: Stat[] | null;
     core_values: CoreValue[] | null;

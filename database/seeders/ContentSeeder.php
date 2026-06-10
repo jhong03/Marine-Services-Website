@@ -108,6 +108,8 @@ class ContentSeeder extends Seeder
             'hours' => 'Mon–Sat, 8am–6pm',
             'hero_heading' => 'Expert care for your vessel, on and off the water',
             'hero_subtext' => 'Servicing, repairs, and maintenance delivered by certified marine technicians. Keep your boat safe, reliable, and ready for every voyage.',
+            'cinematic_capability' => 'Servicing, repairs & maintenance — done properly, by people who live on the water.',
+            'cinematic_handoff' => 'Welcome aboard.',
             'about_story' => "[Placeholder company story] — Marine Services was founded with a simple goal: deliver dependable, honest marine servicing the local boating community can trust.\n\nOver the years we've grown from a single workshop into a full-service marine operation, but our values haven't changed. Share your real history and we'll bring it to life.",
             'stats' => [
                 ['value' => '20+', 'label' => 'Years on the water'],

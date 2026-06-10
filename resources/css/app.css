@@ -167,6 +167,21 @@
     }
 }
 
+/* Lenis smooth-scroll (homepage cinematic) — recommended base styles. */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
 @layer utilities {
     /* Faint fractal-noise overlay for an aged-paper / printed feel. Drop an
        absolutely-positioned <div class="paper-grain"> inside a section. */

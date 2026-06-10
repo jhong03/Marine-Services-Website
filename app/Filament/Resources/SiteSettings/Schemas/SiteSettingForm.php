@@ -35,6 +35,14 @@ class SiteSettingForm
                 Textarea::make('hero_subtext')
                     ->label('Homepage hero subtext')
                     ->columnSpanFull(),
+                Textarea::make('cinematic_capability')
+                    ->label('Homepage cinematic — capability line')
+                    ->helperText('Shown ~⅔ through the scroll sequence, e.g. “Servicing, repairs & maintenance — done properly.”')
+                    ->columnSpanFull(),
+                TextInput::make('cinematic_handoff')
+                    ->label('Homepage cinematic — hand-off line')
+                    ->helperText('The closing line as the sequence releases into the page, e.g. “Welcome aboard.”')
+                    ->columnSpanFull(),
                 Textarea::make('about_story')
                     ->label('About page story')
                     ->rows(6)

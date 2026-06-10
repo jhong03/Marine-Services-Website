@@ -17,6 +17,8 @@ class SiteSetting extends Model
         'instagram_url',
         'hero_heading',
         'hero_subtext',
+        'cinematic_capability',
+        'cinematic_handoff',
         'about_story',
         'stats',
         'core_values',

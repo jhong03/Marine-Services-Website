@@ -43,12 +43,14 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-interaction --no-progress --prefer-dist --no-scripts
 
-# JS deps. The Node 22 image ships npm 10, which resolves the optional
-# @emnapi/* transitive deps (Tailwind v4 tooling) differently than the npm 11
-# that authored package-lock.json — so `npm ci` fails its sync check. Pin npm to
-# 11 in the container to match the lockfile author.
+# JS deps. We use `npm install` (not `npm ci`) on purpose: package-lock.json is
+# authored on Windows, where npm records the Windows resolution of Tailwind v4's
+# platform-specific optional deps (@tailwindcss/oxide → @emnapi/*). The Linux
+# build needs different optional entries (e.g. @emnapi/core@1.11.0) that aren't in
+# a Windows-generated lock, so `npm ci`'s strict cross-platform check always fails.
+# `npm install` reconciles to the Linux platform at build time.
 COPY package.json package-lock.json ./
-RUN npm install -g npm@11 && npm ci
+RUN npm install --no-audit --no-fund
 
 # Application source
 COPY . .

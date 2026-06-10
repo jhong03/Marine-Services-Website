@@ -43,9 +43,12 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-interaction --no-progress --prefer-dist --no-scripts
 
-# JS deps
+# JS deps. The Node 22 image ships npm 10, which resolves the optional
+# @emnapi/* transitive deps (Tailwind v4 tooling) differently than the npm 11
+# that authored package-lock.json — so `npm ci` fails its sync check. Pin npm to
+# 11 in the container to match the lockfile author.
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm install -g npm@11 && npm ci
 
 # Application source
 COPY . .

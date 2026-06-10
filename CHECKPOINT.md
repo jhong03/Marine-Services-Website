@@ -1,7 +1,7 @@
 # Marine Services Website — Project Checkpoint
 
 > Resume context for the Marine Services Company website.
-> **Last updated:** 2026-06-08
+> **Last updated:** 2026-06-10
 
 ---
 
@@ -154,8 +154,10 @@ Seeded by `ContentSeeder` (placeholders) and `AdminUserSeeder` (admin) via `Data
 - `72661f9` / `b462769` — Perf: FrankenPHP + Octane runtime (+ strip frankenphp file caps for Render)
 - `84b486c` — "Weathered heritage" visual redesign across every page + auth/settings;
   Lora serif; shared `marine.tsx` components; brass theme; cleared sky/slate starter stragglers
-- **`<this commit>`** — Homepage cinematic (scroll-scrubbed frame sequence; GSAP + Lenis);
-  cinematic copy fields in Site Settings; placeholder frame pipeline (see §11)
+- `18e279a` — Homepage cinematic (scroll-scrubbed frame sequence; GSAP + Lenis); cinematic
+  copy fields in Site Settings; real footage (160 frames) + frame pipeline (see §11)
+- `91a0c67` / `aebcab6` / `3305c1e` — deploy fixes for the npm lockfile (see §10 build gotcha);
+  final fix: Dockerfile uses `npm install` (not `npm ci`). **Cinematic is deployed & live.**
 
 Remote: `https://github.com/jhong03/Marine-Services-Website` (branch `main`). CI (lint + tests)
 is green. **Render uses the public-repo deploy** → push then **Manual Deploy** in the Render
@@ -195,6 +197,15 @@ dashboard (auto-deploy is off unless the GitHub App is connected to the `jhong03
   `php artisan octane:start --server=frankenphp` (worker mode).
 - `docker/opcache.ini` — production OPcache (JIT off; see file for why).
 - `.dockerignore`; `bootstrap/app.php` has `trustProxies(at: '*')` for HTTPS behind Render.
+
+> **Build gotcha — do NOT switch the Dockerfile back to `npm ci`.** The JS step uses
+> `npm install` deliberately. `package-lock.json` is authored on **Windows**, so it records
+> the Windows resolution of Tailwind v4's platform-specific optional deps
+> (`@tailwindcss/oxide` → `@emnapi/*`). The Linux build needs different optional entries that a
+> Windows-generated lock can't contain, so `npm ci`'s strict cross-platform check fails every
+> time (regardless of npm version). `npm install` reconciles to the Linux platform at build time.
+> The proper long-term fix is to regenerate the lock on Linux (e.g. in CI) — until then, keep
+> `npm install`.
 
 **Why this stack (perf):** the old `php artisan serve` was single-process — one page load's
 assets queued behind PHP, which on Render free's throttled 0.1 CPU read as *minutes per click*.

@@ -19,21 +19,21 @@ const DEFAULT_VALUES: CoreValue[] = [
             'We do the job properly the first time, with care taken over every detail — the way it ought to be done.',
     },
     {
-        title: 'Honesty',
+        title: 'Integrity',
         description:
-            'Clear quotes, straight advice, and never a spanner lifted without your say-so.',
+            'Straight advice, clear pricing and work you can stand behind — the very meaning of Veritas.',
     },
     {
-        title: 'Local & loyal',
+        title: 'Reliability',
         description:
-            "We're part of the boating community, looking after our neighbours and their boats for the long haul.",
+            'On-site and on-time, keeping your operation running with minimal downtime.',
     },
 ];
 
 const DEFAULT_STATS: Stat[] = [
-    { value: '20+', label: 'Years experience' },
-    { value: '1,200+', label: 'Vessels cared for' },
-    { value: '15', label: 'Hands on deck' },
+    { value: '25+', label: 'Years of expertise' },
+    { value: '900+', label: 'Projects delivered' },
+    { value: '2', label: 'Core divisions' },
     { value: '24/7', label: 'Emergency support' },
 ];
 
@@ -62,7 +62,7 @@ export default function About({ team }: Props) {
         : DEFAULT_STATS;
     const storyParagraphs = (
         siteSettings?.about_story ??
-        "Marine Services began with a simple promise: dependable, honest marine work the local boating community can trust.\n\nShare your real history and we'll bring it to life right here."
+        "Veritas Industrial Services was built on a simple promise: dependable, honest work our clients can trust — across industry and on the water.\n\nShare your real history and we'll bring it to life right here."
     )
         .split('\n\n')
         .map((p) => p.trim())
@@ -73,9 +73,9 @@ export default function About({ team }: Props) {
             <Head title="About Us" />
 
             <PageBanner eyebrow="Our story" title="About Us">
-                A crew of dedicated marine professionals who've spent their
-                lives around boats — and who treat looking after yours as a
-                point of pride.
+                A team of dedicated industrial and marine professionals who take
+                pride in precise, dependable work — and in getting your
+                operation back up and running.
             </PageBanner>
 
             {/* Story + stats */}
@@ -84,7 +84,7 @@ export default function About({ team }: Props) {
                     <div>
                         <SectionHeading
                             eyebrow="How we started"
-                            title="Built on the water, by people who love it"
+                            title="Built on precision, trusted for results"
                         />
                         <div className="mt-6 space-y-4 text-lg leading-relaxed text-ink-soft dark:text-paper/70">
                             {storyParagraphs.map((paragraph, index) => (
@@ -116,7 +116,7 @@ export default function About({ team }: Props) {
                     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                         <SectionHeading
                             center
-                            eyebrow="The crew"
+                            eyebrow="Our people"
                             title="Meet the team"
                         />
                         <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -189,7 +189,7 @@ export default function About({ team }: Props) {
                 <div className="relative mx-auto w-full max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8">
                     <RopeDivider className="mb-8 text-brass-bright/60" />
                     <h2 className="font-serif text-3xl font-semibold tracking-tight text-paper sm:text-4xl">
-                        Let's look after your vessel
+                        Let's talk about your next job
                     </h2>
                     <Link
                         href="/contact"

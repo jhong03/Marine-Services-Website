@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { Anchor, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { CompassRose, Eyebrow } from '@/components/marine';
 import { home } from '@/routes';
 import type { AuthLayoutProps } from '@/types';
@@ -9,11 +9,12 @@ function BrandMark({ light = false }: { light?: boolean }) {
         <span
             className={
                 light
-                    ? 'flex h-9 w-9 items-center justify-center rounded-full bg-paper/10 text-brass-bright ring-1 ring-brass/50'
-                    : 'flex h-9 w-9 items-center justify-center rounded-full bg-navy text-brass-bright ring-1 ring-brass/50'
+                    ? 'flex h-9 w-9 items-center justify-center rounded-full bg-paper/10 font-serif text-lg leading-none font-semibold text-brass-bright ring-1 ring-brass/50'
+                    : 'flex h-9 w-9 items-center justify-center rounded-full bg-navy font-serif text-lg leading-none font-semibold text-brass-bright ring-1 ring-brass/50'
             }
+            aria-hidden
         >
-            <Anchor className="h-5 w-5" />
+            V
         </span>
     );
 }
@@ -39,24 +40,23 @@ export default function AuthSimpleLayout({
                 >
                     <BrandMark light />
                     <span className="font-serif text-lg font-semibold tracking-tight">
-                        Marine Services
+                        Veritas Industrial Services
                     </span>
                 </Link>
 
                 <div className="relative max-w-md">
-                    <Eyebrow light>Welcome aboard</Eyebrow>
+                    <Eyebrow light>Team access</Eyebrow>
                     <h2 className="mt-5 font-serif text-3xl leading-tight font-semibold">
-                        Your vessel, in trusted hands
+                        Sign in to manage your site
                     </h2>
                     <p className="mt-4 leading-relaxed text-paper/70">
-                        Manage your bookings, keep an eye on your servicing
-                        history, and stay on top of your boat's maintenance —
-                        all in one tidy place.
+                        Update services, projects and company details — keeping
+                        the Veritas website current, all in one place.
                     </p>
                 </div>
 
                 <div className="relative text-sm text-paper/45">
-                    © {year} Marine Services
+                    © {year} Veritas Industrial Services
                 </div>
             </div>
 
@@ -81,7 +81,7 @@ export default function AuthSimpleLayout({
                         >
                             <BrandMark />
                             <span className="font-serif text-lg font-semibold tracking-tight text-ink dark:text-paper">
-                                Marine Services
+                                Veritas Industrial Services
                             </span>
                         </Link>
 

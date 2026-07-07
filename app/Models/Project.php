@@ -4,13 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Service extends Model
+class Project extends Model
 {
     protected $fillable = [
         'category',
         'title',
-        'description',
-        'icon',
+        'summary',
+        'body',
+        'client',
+        'location',
+        'year',
+        'cover_image',
+        'images',
+        'video_url',
+        'is_featured',
         'sort_order',
         'is_published',
     ];
@@ -18,6 +25,8 @@ class Service extends Model
     protected function casts(): array
     {
         return [
+            'images' => 'array',
+            'is_featured' => 'boolean',
             'is_published' => 'boolean',
         ];
     }

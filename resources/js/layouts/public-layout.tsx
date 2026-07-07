@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Anchor, LogOut, Menu, Settings, Shield, X } from 'lucide-react';
+import { LogOut, Menu, Settings, Shield, X } from 'lucide-react';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { CompassRose } from '@/components/marine';
@@ -17,8 +17,10 @@ import { edit } from '@/routes/profile';
 
 const NAV_LINKS = [
     { label: 'Home', href: '/' },
-    { label: 'Services', href: '/services' },
-    { label: 'Fleet', href: '/fleet' },
+    { label: 'Industrial', href: '/industrial' },
+    { label: 'Marine', href: '/marine' },
+    { label: 'Spare Parts', href: '/spare-parts' },
+    { label: 'Projects', href: '/projects' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
 ];
@@ -31,16 +33,17 @@ function isActive(current: string, href: string): boolean {
     return current.startsWith(href);
 }
 
-/** Brass anchor on a navy porthole — the heritage brand mark. */
+/** Brass "V" monogram on a navy disc — brand mark for Veritas. */
 function BrandMark({ light = false }: { light?: boolean }) {
     return (
         <span
             className={cn(
-                'flex h-9 w-9 items-center justify-center rounded-full text-brass-bright ring-1 ring-brass/50',
+                'flex h-9 w-9 items-center justify-center rounded-full font-serif text-lg leading-none font-semibold text-brass-bright ring-1 ring-brass/50',
                 light ? 'bg-paper/10' : 'bg-navy',
             )}
+            aria-hidden
         >
-            <Anchor className="h-5 w-5" />
+            V
         </span>
     );
 }
@@ -61,7 +64,8 @@ export function SiteHeader({
     const [mobileOpen, setMobileOpen] = useState(false);
     const getInitials = useInitials();
 
-    const companyName = siteSettings?.company_name ?? 'Marine Services';
+    const companyName =
+        siteSettings?.company_name ?? 'Veritas Industrial Services';
     // Light treatment: transparent header sitting over dark footage.
     const light = overlay && !solid;
 
@@ -89,7 +93,7 @@ export function SiteHeader({
                 </Link>
 
                 {/* Desktop nav */}
-                <nav className="hidden items-center gap-1 md:flex">
+                <nav className="hidden items-center gap-1 lg:flex">
                     {NAV_LINKS.map((link) => (
                         <Link
                             key={link.href}
@@ -178,22 +182,10 @@ export function SiteHeader({
                             </Link>
                         </>
                     )}
-
-                    <Link
-                        href="/contact"
-                        className={cn(
-                            'ml-1 rounded-md px-4 py-2 text-sm font-semibold shadow-sm transition-colors',
-                            light
-                                ? 'bg-brass-bright text-navy-deep hover:bg-rope'
-                                : 'bg-brass text-paper hover:bg-timber dark:bg-brass-bright dark:text-navy-deep dark:hover:bg-rope',
-                        )}
-                    >
-                        Get a Quote
-                    </Link>
                 </nav>
 
                 {/* Mobile controls */}
-                <div className="flex items-center gap-1 md:hidden">
+                <div className="flex items-center gap-1 lg:hidden">
                     <ThemeToggle className={cn(light && 'text-paper/80')} />
                     <button
                         type="button"
@@ -217,7 +209,7 @@ export function SiteHeader({
 
             {/* Mobile nav (always solid panel for legibility) */}
             {mobileOpen && (
-                <nav className="border-t border-seafog bg-paper px-4 pb-4 md:hidden dark:border-navy dark:bg-navy-deep">
+                <nav className="border-t border-seafog bg-paper px-4 pb-4 lg:hidden dark:border-navy dark:bg-navy-deep">
                     {NAV_LINKS.map((link) => (
                         <Link
                             key={link.href}
@@ -282,14 +274,6 @@ export function SiteHeader({
                             </Link>
                         </>
                     )}
-
-                    <Link
-                        href="/contact"
-                        onClick={() => setMobileOpen(false)}
-                        className="mt-2 block rounded-md bg-brass px-3 py-2 text-center text-base font-semibold text-paper dark:bg-brass-bright dark:text-navy-deep"
-                    >
-                        Get a Quote
-                    </Link>
                 </nav>
             )}
         </header>
@@ -299,7 +283,8 @@ export function SiteHeader({
 export function SiteFooter() {
     const { props } = usePage();
     const { siteSettings } = props;
-    const companyName = siteSettings?.company_name ?? 'Marine Services';
+    const companyName =
+        siteSettings?.company_name ?? 'Veritas Industrial Services';
 
     return (
         <footer className="relative overflow-hidden bg-navy text-paper/70 dark:bg-navy-deep">
@@ -314,7 +299,7 @@ export function SiteFooter() {
                     </div>
                     <p className="mt-4 max-w-sm text-sm leading-relaxed text-paper/55">
                         {siteSettings?.tagline ??
-                            'Honest marine servicing, repairs, and maintenance — keeping your vessel safe, reliable, and ready for the water, season after season.'}
+                            'Industrial and marine services, and genuine spare parts — delivered with precision, integrity and care.'}
                     </p>
                 </div>
 
@@ -351,8 +336,8 @@ export function SiteFooter() {
             </div>
             <div className="relative border-t border-paper/10">
                 <div className="mx-auto w-full max-w-7xl px-4 py-6 text-center text-xs text-paper/40 sm:px-6 lg:px-8">
-                    © {new Date().getFullYear()} {companyName}. Crafted with
-                    care for the boating community.
+                    © {new Date().getFullYear()} {companyName}. Industrial &
+                    marine services, and genuine spare parts.
                 </div>
             </div>
         </footer>

@@ -21,16 +21,26 @@ export type SiteSettings = {
 
 export type Service = {
     id: number;
+    category: string;
     icon: string | null;
     title: string;
     description: string;
 };
 
-export type FleetItem = {
+export type ProjectCategory = 'industrial' | 'marine' | 'spare_parts';
+
+export type Project = {
     id: number;
-    name: string;
-    spec: string | null;
-    description: string;
+    category: string;
+    title: string;
+    summary: string | null;
+    body: string | null;
+    client: string | null;
+    location: string | null;
+    year: string | null;
+    cover_image: string | null;
+    images: string[] | null;
+    video_url: string | null;
 };
 
 export type TeamMember = {

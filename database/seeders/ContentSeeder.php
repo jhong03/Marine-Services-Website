@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\FleetItem;
+use App\Models\Project;
 use App\Models\Service;
 use App\Models\SiteSetting;
 use App\Models\TeamMember;
@@ -14,7 +14,7 @@ class ContentSeeder extends Seeder
     public function run(): void
     {
         $this->seedServices();
-        $this->seedFleet();
+        $this->seedProjects();
         $this->seedTeam();
         $this->seedTestimonials();
         $this->seedSettings();
@@ -27,12 +27,23 @@ class ContentSeeder extends Seeder
         }
 
         $services = [
-            ['icon' => 'wrench', 'title' => 'Engine Service & Repair', 'description' => 'Routine servicing, fault diagnostics, and full repairs for inboard and outboard engines — petrol and diesel.'],
-            ['icon' => 'droplets', 'title' => 'Hull Cleaning & Antifoul', 'description' => 'Pressure washing, antifoul stripping and application, and propeller polishing to protect performance.'],
-            ['icon' => 'gauge', 'title' => 'Marine Electronics', 'description' => 'Supply and installation of chartplotters, radar, AIS, VHF, and instrumentation — fully calibrated.'],
-            ['icon' => 'ship', 'title' => 'Rigging & Sails', 'description' => 'Standing and running rigging inspection, replacement, and tuning for sailing vessels of all sizes.'],
-            ['icon' => 'paint', 'title' => 'Gelcoat & Finishing', 'description' => 'Gelcoat repair, polishing, and detailing to keep your vessel looking its best above the waterline.'],
-            ['icon' => 'lifebuoy', 'title' => 'Safety & Compliance', 'description' => 'Safety equipment checks, servicing of liferafts and extinguishers, and survey preparation.'],
+            // Industrial
+            ['category' => 'industrial', 'icon' => 'cog', 'title' => 'Mechanical Maintenance', 'description' => 'Preventive and corrective maintenance for industrial plant, pumps, compressors and rotating equipment.'],
+            ['category' => 'industrial', 'icon' => 'hammer', 'title' => 'Fabrication & Welding', 'description' => 'Custom steel fabrication, structural welding, and on-site repairs built to specification.'],
+            ['category' => 'industrial', 'icon' => 'gauge', 'title' => 'Instrumentation & Controls', 'description' => 'Installation, calibration and servicing of industrial instrumentation and control systems.'],
+            ['category' => 'industrial', 'icon' => 'zap', 'title' => 'Electrical Services', 'description' => 'Industrial electrical installation, panel building and fault-finding by certified electricians.'],
+            ['category' => 'industrial', 'icon' => 'hardhat', 'title' => 'Shutdowns & Turnarounds', 'description' => 'Planned shutdown support, overhauls and turnaround crews to get you back online fast.'],
+
+            // Marine
+            ['category' => 'marine', 'icon' => 'ship', 'title' => 'Marine Engine Service & Repair', 'description' => 'Servicing, diagnostics and repair for inboard and outboard marine engines — petrol and diesel.'],
+            ['category' => 'marine', 'icon' => 'droplets', 'title' => 'Hull Cleaning & Coatings', 'description' => 'Pressure washing, antifoul and protective coatings to keep vessels performing.'],
+            ['category' => 'marine', 'icon' => 'anchor', 'title' => 'Deck & Rigging', 'description' => 'Standing and running rigging, deck hardware and on-water repairs for all vessel types.'],
+            ['category' => 'marine', 'icon' => 'lifebuoy', 'title' => 'Marine Safety & Survey', 'description' => 'Safety equipment servicing, liferaft checks and survey preparation.'],
+
+            // Spare parts
+            ['category' => 'spare_parts', 'icon' => 'package', 'title' => 'Genuine & OEM Parts', 'description' => 'Supply of genuine and OEM spare parts for industrial and marine equipment.'],
+            ['category' => 'spare_parts', 'icon' => 'boxes', 'title' => 'Sourcing & Inventory', 'description' => 'Hard-to-find part sourcing, stock management and fast turnaround.'],
+            ['category' => 'spare_parts', 'icon' => 'truck', 'title' => 'Delivery & Logistics', 'description' => 'Expedited shipping and delivery to keep your downtime to a minimum.'],
         ];
 
         foreach ($services as $i => $service) {
@@ -40,21 +51,24 @@ class ContentSeeder extends Seeder
         }
     }
 
-    private function seedFleet(): void
+    private function seedProjects(): void
     {
-        if (FleetItem::query()->exists()) {
+        if (Project::query()->exists()) {
             return;
         }
 
-        $fleet = [
-            ['name' => 'Service Tender', 'spec' => 'Rapid on-water response', 'description' => 'Our mobile service tender brings tools and technicians directly to your mooring.'],
-            ['name' => 'Haul-Out Trailer', 'spec' => 'Up to 12m / 8 tonnes', 'description' => 'Hydraulic trailer for safe haul-out, transport, and hardstand storage of your vessel.'],
-            ['name' => 'Workshop & Yard', 'spec' => 'Undercover servicing bays', 'description' => 'Fully equipped workshop for engine rebuilds, fabrication, and finishing work.'],
-            ['name' => 'Dive Support', 'spec' => 'In-water inspection', 'description' => 'Commercial divers for hull cleaning, prop changes, and underwater inspections.'],
+        $placeholder = 'Placeholder project — add real photos, a video link and the story of this job in the admin panel.';
+
+        $projects = [
+            ['category' => 'industrial', 'title' => 'Refinery Pump Overhaul', 'summary' => 'Full overhaul of critical process pumps during a planned plant shutdown.', 'client' => '[Client name]', 'location' => '[Location]', 'year' => '2024', 'is_featured' => true],
+            ['category' => 'industrial', 'title' => 'Structural Steel Fabrication', 'summary' => 'Design and fabrication of custom structural steelwork for a processing facility.', 'year' => '2023', 'is_featured' => false],
+            ['category' => 'marine', 'title' => 'Tanker Main Engine Rebuild', 'summary' => 'Complete rebuild and recommissioning of a marine main engine.', 'client' => '[Client name]', 'year' => '2024', 'is_featured' => true],
+            ['category' => 'marine', 'title' => 'Hull Recoat & Antifoul', 'summary' => 'Haul-out, blast and full protective coating system on a working vessel.', 'year' => '2023', 'is_featured' => false],
+            ['category' => 'spare_parts', 'title' => 'Emergency Parts Supply', 'summary' => 'Sourced and delivered critical spares within 24 hours to avert downtime.', 'year' => '2024', 'is_featured' => true],
         ];
 
-        foreach ($fleet as $i => $item) {
-            FleetItem::create([...$item, 'sort_order' => $i, 'is_published' => true]);
+        foreach ($projects as $i => $project) {
+            Project::create([...$project, 'body' => $placeholder, 'sort_order' => $i, 'is_published' => true]);
         }
     }
 
@@ -65,9 +79,9 @@ class ContentSeeder extends Seeder
         }
 
         $team = [
-            ['name' => '[Team member name]', 'role' => 'Lead Marine Technician', 'bio' => 'Placeholder bio — add this team member\'s experience and specialties.'],
-            ['name' => '[Team member name]', 'role' => 'Workshop Manager', 'bio' => 'Placeholder bio — add this team member\'s experience and specialties.'],
-            ['name' => '[Team member name]', 'role' => 'Customer Service', 'bio' => 'Placeholder bio — add this team member\'s experience and specialties.'],
+            ['name' => '[Team member name]', 'role' => 'Operations Manager', 'bio' => "Placeholder bio — add this team member's experience and specialties."],
+            ['name' => '[Team member name]', 'role' => 'Lead Engineer', 'bio' => "Placeholder bio — add this team member's experience and specialties."],
+            ['name' => '[Team member name]', 'role' => 'Parts & Logistics', 'bio' => "Placeholder bio — add this team member's experience and specialties."],
         ];
 
         foreach ($team as $i => $member) {
@@ -82,8 +96,8 @@ class ContentSeeder extends Seeder
         }
 
         $testimonials = [
-            ['quote' => 'Fast, professional, and honest. They had our engine sorted and us back on the water within days.', 'author' => 'Placeholder testimonial, happy customer'],
-            ['quote' => 'Booked in for a haul-out and antifoul — great communication and the boat came back looking brand new.', 'author' => 'Placeholder testimonial, returning customer'],
+            ['quote' => 'Professional, precise and dependable — they handled our shutdown on time and to spec.', 'author' => 'Placeholder testimonial, industrial client'],
+            ['quote' => 'Sourced a hard-to-find part overnight and kept our vessel on schedule. Outstanding service.', 'author' => 'Placeholder testimonial, marine client'],
         ];
 
         foreach ($testimonials as $i => $testimonial) {
@@ -95,32 +109,30 @@ class ContentSeeder extends Seeder
     {
         $settings = SiteSetting::current();
 
-        if (filled($settings->company_name)) {
+        if (filled($settings->company_name) && $settings->company_name !== 'Marine Services') {
             return;
         }
 
         $settings->update([
-            'company_name' => 'Marine Services',
-            'tagline' => 'Professional marine servicing, repairs, and maintenance — keeping your vessel safe, reliable, and ready for the water.',
-            'email' => 'hello@marineservices.test',
+            'company_name' => 'Veritas Industrial Services',
+            'tagline' => 'Industrial and marine services, plus genuine spare parts — delivered with precision and care.',
+            'email' => 'info@veritasindustrial.example',
             'phone' => '+00 0000 000000',
-            'address' => 'Marina Drive, Harbourside',
-            'hours' => 'Mon–Sat, 8am–6pm',
-            'hero_heading' => 'Expert care for your vessel, on and off the water',
-            'hero_subtext' => 'Servicing, repairs, and maintenance delivered by certified marine technicians. Keep your boat safe, reliable, and ready for every voyage.',
-            'cinematic_capability' => 'Servicing, repairs & maintenance — done properly, by people who live on the water.',
-            'cinematic_handoff' => 'Welcome aboard.',
-            'about_story' => "[Placeholder company story] — Marine Services was founded with a simple goal: deliver dependable, honest marine servicing the local boating community can trust.\n\nOver the years we've grown from a single workshop into a full-service marine operation, but our values haven't changed. Share your real history and we'll bring it to life.",
+            'address' => '[Company address]',
+            'hours' => 'Mon–Fri, 8am–6pm',
+            'hero_heading' => 'Precision industrial & marine services you can trust',
+            'hero_subtext' => 'From plant maintenance and fabrication to marine servicing and spare-parts supply — one experienced team, on-site and on-time.',
+            'about_story' => "[Placeholder company story] — Veritas Industrial Services was built on a simple principle: honest, precise work our clients can rely on.\n\nWe deliver industrial and marine services and genuine spare parts across the region. Share your real history and we'll bring it to life here.",
             'stats' => [
-                ['value' => '20+', 'label' => 'Years on the water'],
-                ['value' => '1,200+', 'label' => 'Vessels serviced'],
-                ['value' => '24/7', 'label' => 'Emergency callout'],
-                ['value' => '100%', 'label' => 'Certified technicians'],
+                ['value' => '25+', 'label' => 'Years of expertise'],
+                ['value' => '900+', 'label' => 'Projects delivered'],
+                ['value' => '2', 'label' => 'Core divisions'],
+                ['value' => '24/7', 'label' => 'Emergency support'],
             ],
             'core_values' => [
                 ['title' => 'Craftsmanship', 'description' => 'We do the job properly the first time, with attention to every detail.'],
-                ['title' => 'Honesty', 'description' => 'Clear quotes, straight advice, and no work done without your say-so.'],
-                ['title' => 'Local & loyal', 'description' => 'A part of the boating community, looking after our customers for the long haul.'],
+                ['title' => 'Integrity', 'description' => 'Straight advice, clear pricing and work you can stand behind — the meaning of Veritas.'],
+                ['title' => 'Reliability', 'description' => 'On-site and on-time, keeping your operation running with minimal downtime.'],
             ],
         ]);
     }

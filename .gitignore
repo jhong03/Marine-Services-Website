@@ -28,6 +28,10 @@ yarn-error.log
 /source.mp4
 /cruisedroneshot.mp4
 /*.mov
+
+# Raw showcase media drops — only the optimized public/media/ versions are committed.
+/media/*
+!/media/README.md
 /.nova
 /.vscode
 /.zed

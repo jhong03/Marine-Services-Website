@@ -1,21 +1,29 @@
-# Marine Services Website — Project Checkpoint
+# Veritas Industrial Services — Project Checkpoint
 
-> Resume context for the Marine Services Company website.
-> **Last updated:** 2026-06-10
+> Resume context for the **Veritas Industrial Services** website.
+> **Last updated:** 2026-07-07
+> (Repo folder is still `MarineServiceWebsite` and the GitHub repo is still
+> `Marine-Services-Website` — the project was **rebranded/pivoted**, not re-created.)
 
 ---
 
 ## 1. Overview
 
-A website for a **Marine Services Company** (boat servicing, repairs, maintenance).
-Goals: smooth UX, strong SEO (local services business), and a simple admin so
-**non-technical staff** can manage content.
+A **showcase** website for **Veritas Industrial Services** — a company offering
+**industrial services, marine services, and spare parts** (three pillars). The site's
+purpose is to **show off past work** (project photos, video recordings, experience/case
+studies). It does **not** take enquiries/bookings — Contact is **info-only** (no form).
+Goals: strong first impression, easy admin so **non-technical staff** can manage content.
 
-**Status:** **Phase 1 + Phase 2 complete**, plus a full **"weathered heritage" visual
-redesign** and a **FrankenPHP + Octane** production runtime. Public marketing site
-(light + dark), unified auth, and a Filament admin where staff manage all content (which
-the public pages render live from the database). All content is still **placeholder**
-pending real branding/copy.
+> **History:** started life as a marine-only services site ("Marine Services") with a
+> lead-capture contact form and a scroll-driven marine cinematic hero. Pivoted (2026-07)
+> to the broader Veritas industrial+marine+parts showcase. The **weathered-heritage**
+> visual theme (aged paper, deep navy, brass, Lora serif) was **kept**.
+
+**Status:** Rebranded + pivoted and deployed. Three-pillar nav (Industrial / Marine /
+Spare Parts), a **Projects** gallery (cards → lightbox with photos + embedded video),
+static industrial hero, contact info-only. Content is **placeholder** pending real
+copy + media (see §6). FrankenPHP + Octane production runtime; unified auth; Filament admin.
 
 ---
 
@@ -106,13 +114,23 @@ Seeded by `ContentSeeder` (placeholders) and `AdminUserSeeder` (admin) via `Data
 
 ## 5. Key Decisions & Notes
 
-- **Layout resolver** (`resources/js/app.tsx`): public pages (`welcome|services|fleet|about|contact`)
+- **Layout resolver** (`resources/js/app.tsx`): public pages (`welcome|pillar|projects|about|contact`)
   return `null`; `auth/*` → `AuthLayout`; `settings/*` → `SettingsLayout` (which wraps `PublicLayout`).
   New public pages MUST be added to the `null` list or they get a wrapping layout.
 - **Shared site settings:** `app/Http/Middleware/HandleInertiaRequests.php` shares `siteSettings`
   globally (guarded by `Schema::hasTable`). The layout/footer + hero/stats/about read from it.
 - **Service icons:** stored as string keys; mapped to lucide in `resources/js/lib/icons.ts`.
   Keep keys in sync with the Select options in `ServiceForm.php`.
+- **Three pillars** live in one place: `resources/js/lib/projects.ts` (`PILLARS` — key/label/href/icon/blurb),
+  used by the nav, home cards and the pillar pages. Each `Service` has a `category`
+  (`industrial|marine|spare_parts`). Pillar pages are a **single** component `pages/pillar.tsx`
+  (routes `/industrial`, `/marine`, `/spare-parts` → `PageController` methods → render `pillar` with a `category`).
+- **Projects showcase:** `Project` model (category, title, summary, body, client, location, year, `cover_image`,
+  `images[]`, `video_url`, `is_featured`). Reusable `components/projects-grid.tsx` = cards + lightbox modal
+  (photos + `videoEmbedUrl()` YouTube/Vimeo embeds); a branded fallback shows when a project has no cover image.
+  **Media is committed static files** under `public/media/…` — Render's disk is ephemeral, so runtime admin
+  uploads would NOT persist. So Filament image fields are **path text inputs**, not uploaders. Workflow: drop
+  raw photos in `media/` (gitignored) → optimize → commit to `public/media/`.
 - **Design system / theme** (`resources/css/app.css`): "weathered heritage" palette as Tailwind
   utilities — `bg-paper`/`paper-deep`/`surface`, `text-ink`/`ink-soft`, `bg-navy`/`navy-deep`,
   `text-brass`/`brass-bright`, `rope`, `timber`, `seafog` (hairline borders). The shadcn semantic
@@ -134,13 +152,16 @@ Seeded by `ContentSeeder` (placeholders) and `AdminUserSeeder` (admin) via `Data
 
 ---
 
-## 6. Placeholders To Replace (now editable in `/admin`, not in code)
+## 6. Placeholders To Replace (mostly editable in `/admin`)
 
-- **Site Settings:** company name, tagline, address/email/phone/hours, hero heading/subtext,
-  stats, about story + values. (`APP_NAME` in `.env` is a separate, secondary placeholder.)
-- **Services / Fleet / Team / Testimonials:** all editable rows (seeded with placeholder copy).
-- **Brand:** logo is a brass anchor on a navy "porthole"; palette is aged paper + deep navy + brass.
-  Real photos for Fleet/Team are deferred (need object storage — see §10).
+- **Site Settings:** company name (Veritas Industrial Services), tagline, address/email/phone/hours,
+  hero heading/subtext, stats, about story + values. (`APP_NAME`/`VITE_APP_NAME` are separate.)
+- **Services / Projects / Team / Testimonials:** editable rows (seeded with placeholder copy).
+- **Project media (the showcase):** the client will provide photos. **Drop raw photos in the `media/`
+  folder** (see `media/README.md`) — one sub-folder per project. I optimize them → commit to
+  `public/media/projects/…` → set each project's `cover_image` / `images[]` paths (+ `video_url` for
+  YouTube/Vimeo). Until then, project cards show a branded fallback tile.
+- **Brand:** brass "V" monogram on a navy disc; palette is aged paper + deep navy + brass (heritage theme kept).
 
 ---
 
@@ -157,7 +178,12 @@ Seeded by `ContentSeeder` (placeholders) and `AdminUserSeeder` (admin) via `Data
 - `18e279a` — Homepage cinematic (scroll-scrubbed frame sequence; GSAP + Lenis); cinematic
   copy fields in Site Settings; real footage (160 frames) + frame pipeline (see §11)
 - `91a0c67` / `aebcab6` / `3305c1e` — deploy fixes for the npm lockfile (see §10 build gotcha);
-  final fix: Dockerfile uses `npm install` (not `npm ci`). **Cinematic is deployed & live.**
+  final fix: Dockerfile uses `npm install` (not `npm ci`).
+- `4896fbc` — docs (cinematic live).
+- **`<this commit>`** — **Pivot → Veritas Industrial Services**: rebrand everywhere; three pillars
+  (Industrial/Marine/Spare Parts, `Service.category`) + **Projects** gallery/lightbox (`Project` model);
+  **static** industrial hero (marine **cinematic removed** — engine, 160 frames & scripts deleted);
+  **Contact = info-only** (form removed); **Fleet page retired**; generalized copy; `media/` drop folder.
 
 Remote: `https://github.com/jhong03/Marine-Services-Website` (branch `main`). CI (lint + tests)
 is green. **Render uses the public-repo deploy** → push then **Manual Deploy** in the Render
@@ -167,14 +193,16 @@ dashboard (auto-deploy is off unless the GitHub App is connected to the `jhong03
 
 ## 8. Roadmap / Next Steps
 
-- **Phase 3 — Enquiries / contact backend:** add an `Enquiry` model + Filament inbox, wire the
-  contact form (`contact.tsx`) to persist + email (currently a client-side stub).
-- **Phase 4 (optional) — Customer portal:** accounts, bookings, invoices/payments.
-- **Real content/branding:** fill in via `/admin`.
-- **Homepage cinematic — real footage:** replace the placeholder frames with a real drone clip
-  (see §11 + `scripts/extract-frames.md`).
-- **Pre-launch:** Inertia SSR for SEO, object storage for image uploads, production `.env`,
+- **Real content + media (next):** client to provide project photos (→ `media/` folder) and video
+  links; fill copy + project details via `/admin`. This is the main outstanding work.
+- **Admin image uploads:** today image *paths* only (ephemeral disk). Add object storage
+  (S3 / Cloudflare R2 / Cloudinary) so staff can upload photos directly in Filament.
+- **Pre-launch:** Inertia SSR for SEO, production `.env`, set `APP_NAME` + `APP_URL` on Render,
   change the seeded admin password, decide on open registration.
+- **Note:** enquiries/contact backend and the customer portal are **out of scope** (site is a
+  showcase, no lead capture). Contact is info-only.
+- **Cinematic** was removed in the pivot — restorable from git history (`18e279a`) if industrial
+  footage is ever wanted (the engine + ffmpeg pipeline were in `resources/js/components/cinematic/`).
 
 ---
 
@@ -237,9 +265,14 @@ local machine (full CPU) will beat free hosting.
 
 ---
 
-## 11. Homepage cinematic system
+## 11. Homepage cinematic system — REMOVED (historical)
 
-The home page (`welcome`) opens with an **Apple-style scroll-scrubbed frame
+> ⚠️ **Removed in the Veritas pivot** (the home page now has a static hero). This
+> section is kept only as history / restore reference — the code (engine, 160 marine
+> frames, ffmpeg scripts) was deleted but is recoverable from git commit `18e279a`.
+> `gsap`/`lenis` remain in `package.json` (unused) to avoid lockfile churn.
+
+The home page (`welcome`) used to open with an **Apple-style scroll-scrubbed frame
 sequence**: as you scroll, a `<canvas>` plays pre-extracted WebP frames (drone
 descending over water toward a vessel) while serif overlay "moments" fade in/out,
 then the page **releases** into the normal DB-driven content sections. There is

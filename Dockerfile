@@ -56,7 +56,7 @@ RUN npm install --no-audit --no-fund
 COPY . .
 
 # Baked into the JS bundle at build time (page titles).
-ENV VITE_APP_NAME="Marine Services"
+ENV VITE_APP_NAME="Veritas Industrial Services"
 
 # Finalise autoloader + package discovery, then build assets (Wayfinder needs PHP).
 RUN composer dump-autoload --optimize --no-dev \

@@ -14,6 +14,15 @@ class ServiceForm
     {
         return $schema
             ->components([
+                Select::make('category')
+                    ->required()
+                    ->options([
+                        'industrial' => 'Industrial Services',
+                        'marine' => 'Marine Services',
+                        'spare_parts' => 'Spare Parts',
+                    ])
+                    ->native(false)
+                    ->default('industrial'),
                 TextInput::make('title')
                     ->required(),
                 Textarea::make('description')
@@ -22,16 +31,22 @@ class ServiceForm
                 Select::make('icon')
                     ->label('Icon')
                     ->options([
-                        'wrench' => 'Wrench (engine / repair)',
-                        'droplets' => 'Droplets (cleaning / antifoul)',
-                        'gauge' => 'Gauge (electronics)',
-                        'ship' => 'Ship (rigging / vessel)',
-                        'paint' => 'Paint bucket (finishing)',
-                        'lifebuoy' => 'Life buoy (safety)',
-                        'anchor' => 'Anchor',
-                        'shield' => 'Shield (insured)',
-                        'compass' => 'Compass',
-                        'waves' => 'Waves',
+                        'cog' => 'Cog (mechanical)',
+                        'wrench' => 'Wrench (repair)',
+                        'hammer' => 'Hammer (fabrication)',
+                        'gauge' => 'Gauge (instrumentation)',
+                        'zap' => 'Bolt (electrical)',
+                        'factory' => 'Factory (plant)',
+                        'hardhat' => 'Hard hat (site works)',
+                        'truck' => 'Truck (logistics)',
+                        'package' => 'Package (spare parts)',
+                        'boxes' => 'Boxes (inventory)',
+                        'shield' => 'Shield (safety / insured)',
+                        'droplets' => 'Droplets (cleaning / coatings)',
+                        'ship' => 'Ship (marine / vessel)',
+                        'anchor' => 'Anchor (marine)',
+                        'lifebuoy' => 'Life buoy (marine safety)',
+                        'waves' => 'Waves (marine)',
                     ])
                     ->native(false)
                     ->searchable()

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Services\Tables;
+namespace App\Filament\Resources\Projects\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -9,7 +9,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class ServicesTable
+class ProjectsTable
 {
     public static function configure(Table $table): Table
     {
@@ -19,18 +19,20 @@ class ServicesTable
                     ->searchable(),
                 TextColumn::make('category')
                     ->badge()
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'industrial' => 'Industrial',
+                        'marine' => 'Marine',
+                        'spare_parts' => 'Spare Parts',
+                        default => $state,
+                    })
                     ->sortable(),
-                TextColumn::make('icon')
-                    ->searchable(),
+                IconColumn::make('is_featured')
+                    ->boolean(),
                 TextColumn::make('sort_order')
                     ->numeric()
                     ->sortable(),
                 IconColumn::make('is_published')
                     ->boolean(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

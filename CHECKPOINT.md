@@ -20,10 +20,14 @@ Goals: strong first impression, easy admin so **non-technical staff** can manage
 > to the broader Veritas industrial+marine+parts showcase. The **weathered-heritage**
 > visual theme (aged paper, deep navy, brass, Lora serif) was **kept**.
 
-**Status:** Rebranded + pivoted and deployed. Three-pillar nav (Industrial / Marine /
-Spare Parts), a **Projects** gallery (cards → lightbox with photos + embedded video),
-static industrial hero, contact info-only. Content is **placeholder** pending real
-copy + media (see §6). FrankenPHP + Octane production runtime; unified auth; Filament admin.
+**Status:** Pivot **committed (`c93b60c`) + pushed + CI green**, running locally.
+⚠️ **Render Manual Deploy of `c93b60c` still PENDING** — the older marine *cinematic*
+build is what's currently live on Render until someone hits Manual Deploy. Also set
+`APP_NAME=Veritas Industrial Services` in the Render env (browser-tab suffix).
+Three-pillar nav (Industrial / Marine / Spare Parts), a **Projects** gallery (cards →
+lightbox with photos + embedded video), static industrial hero, contact info-only.
+Content is **placeholder** pending real copy + media (see §6). FrankenPHP + Octane
+production runtime; unified auth; Filament admin (now with a **Projects** resource).
 
 ---
 
@@ -180,10 +184,11 @@ Seeded by `ContentSeeder` (placeholders) and `AdminUserSeeder` (admin) via `Data
 - `91a0c67` / `aebcab6` / `3305c1e` — deploy fixes for the npm lockfile (see §10 build gotcha);
   final fix: Dockerfile uses `npm install` (not `npm ci`).
 - `4896fbc` — docs (cinematic live).
-- **`<this commit>`** — **Pivot → Veritas Industrial Services**: rebrand everywhere; three pillars
+- **`c93b60c`** — **Pivot → Veritas Industrial Services**: rebrand everywhere; three pillars
   (Industrial/Marine/Spare Parts, `Service.category`) + **Projects** gallery/lightbox (`Project` model);
   **static** industrial hero (marine **cinematic removed** — engine, 160 frames & scripts deleted);
   **Contact = info-only** (form removed); **Fleet page retired**; generalized copy; `media/` drop folder.
+  ✅ pushed, CI green. ⬜ Render Manual Deploy still pending.
 
 Remote: `https://github.com/jhong03/Marine-Services-Website` (branch `main`). CI (lint + tests)
 is green. **Render uses the public-repo deploy** → push then **Manual Deploy** in the Render

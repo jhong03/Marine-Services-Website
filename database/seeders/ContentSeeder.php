@@ -66,9 +66,6 @@ class ContentSeeder extends Seeder
 
         $placeholder = 'Placeholder project — add real photos, a video link and the story of this job in the admin panel.';
 
-        // Note left on the real marine jobs until the client confirms details.
-        $toConfirm = "\n\nVessel, client, location and date to be confirmed and added in the admin panel.";
-
         $mediaBase = '/media/projects';
 
         $projects = [
@@ -77,7 +74,7 @@ class ContentSeeder extends Seeder
                 'category' => 'marine',
                 'title' => 'Marine Main Engine Overhaul',
                 'summary' => "Top-end overhaul and running maintenance on a vessel's main propulsion engine and engine-room machinery.",
-                'body' => 'Hands-on overhaul of a marine diesel main engine and its supporting machinery, carried out on board. Work included opening up the cylinder units and valve gear for inspection and servicing, and attending to the surrounding engine-room systems to bring the plant back to reliable running order.'.$toConfirm,
+                'body' => 'Hands-on overhaul of a marine diesel main engine and its supporting machinery, carried out on board. Work included opening up the cylinder units and valve gear for inspection and servicing, and attending to the surrounding engine-room systems to bring the plant back to reliable running order.',
                 'client' => null,
                 'location' => null,
                 'year' => null,
@@ -97,7 +94,7 @@ class ContentSeeder extends Seeder
                 'category' => 'marine',
                 'title' => 'Bridge & Navigation Systems',
                 'summary' => 'Support for wheelhouse navigation and manoeuvring equipment — ECDIS, radar and bridge consoles.',
-                'body' => 'Attending to the vessel\'s bridge equipment, including the ECDIS and radar navigation consoles and the main manoeuvring console. Work of this kind covers checking, servicing and troubleshooting the wheelhouse systems the crew rely on at sea.'.$toConfirm,
+                'body' => 'Attending to the vessel\'s bridge equipment, including the ECDIS and radar navigation consoles and the main manoeuvring console. Work of this kind covers checking, servicing and troubleshooting the wheelhouse systems the crew rely on at sea.',
                 'client' => null,
                 'location' => null,
                 'year' => null,
@@ -110,7 +107,7 @@ class ContentSeeder extends Seeder
                 'category' => 'marine',
                 'title' => 'Switchboard & Steering Gear Service',
                 'summary' => 'Main switchboard, electrical distribution and steering-gear hydraulics inspected and maintained.',
-                'body' => 'Servicing of the engine-control-room main switchboard and electrical distribution alongside the steering-gear compartment — including the hydraulic power packs that drive the steering. Regular attention here keeps a vessel\'s power and steering dependable and survey-ready.'.$toConfirm,
+                'body' => 'Servicing of the engine-control-room main switchboard and electrical distribution alongside the steering-gear compartment — including the hydraulic power packs that drive the steering. Regular attention here keeps a vessel\'s power and steering dependable and survey-ready.',
                 'client' => null,
                 'location' => null,
                 'year' => null,

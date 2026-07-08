@@ -33,7 +33,10 @@ jobs:
         run: composer install --optimize-autoloader --no-interaction --prefer-dist
 
       - name: Install Node dependencies
-        run: npm ci
+        # npm install (not ci): package-lock.json is generated on Windows and
+        # can't contain the Linux-only optional deps (Tailwind v4 oxide ->
+        # @emnapi/*), which makes npm ci's strict cross-platform check fail.
+        run: npm install
 
       - name: Prepare Laravel (env, key, seeded SQLite)
         run: |

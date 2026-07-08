@@ -175,9 +175,9 @@ class ContentSeeder extends Seeder
         $settings->update([
             'company_name' => 'Veritas Industrial Services',
             'tagline' => 'Industrial and marine services, plus genuine spare parts — delivered with precision and care.',
-            'email' => 'info@veritasindustrial.example',
-            'phone' => '+00 0000 000000',
-            'address' => '[Company address]',
+            'email' => 'veritas.is@outlook.com',
+            'phone' => '+6017-505 1431',
+            'address' => '22, JALAN KRIAN, 10400, GEORGETOWN, PENANG, MALAYSIA',
             'hours' => 'Mon–Fri, 8am–6pm',
             'hero_heading' => 'Precision industrial & marine services you can trust',
             'hero_subtext' => 'From plant maintenance and fabrication to marine servicing and spare-parts supply — one experienced team, on-site and on-time.',

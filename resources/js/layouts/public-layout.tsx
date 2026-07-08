@@ -1,19 +1,10 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LogOut, Menu, Settings, Shield, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { CompassRose } from '@/components/marine';
 import ThemeToggle from '@/components/theme-toggle';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { UserMenuContent } from '@/components/user-menu-content';
-import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
-import { login, logout, register } from '@/routes';
-import { edit } from '@/routes/profile';
 
 const NAV_LINKS = [
     { label: 'Home', href: '/' },
@@ -33,18 +24,14 @@ function isActive(current: string, href: string): boolean {
     return current.startsWith(href);
 }
 
-/** Brass "V" monogram on a navy disc — brand mark for Veritas. */
-function BrandMark({ light = false }: { light?: boolean }) {
+/** Veritas brand logo. */
+function BrandMark() {
     return (
-        <span
-            className={cn(
-                'flex h-9 w-9 items-center justify-center rounded-full font-serif text-lg leading-none font-semibold text-brass-bright ring-1 ring-brass/50',
-                light ? 'bg-paper/10' : 'bg-navy',
-            )}
-            aria-hidden
-        >
-            V
-        </span>
+        <img
+            src="/images/veritas-logo.png"
+            alt="Veritas Industrial Services"
+            className="h-9 w-9 object-contain"
+        />
     );
 }
 
@@ -60,9 +47,8 @@ export function SiteHeader({
     solid?: boolean;
 }) {
     const { url, props } = usePage();
-    const { auth, siteSettings } = props;
+    const { siteSettings } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
-    const getInitials = useInitials();
 
     const companyName =
         siteSettings?.company_name ?? 'Veritas Industrial Services';
@@ -81,7 +67,7 @@ export function SiteHeader({
         >
             <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <Link href="/" className="flex items-center gap-3">
-                    <BrandMark light={light} />
+                    <BrandMark />
                     <span
                         className={cn(
                             'font-serif text-lg font-semibold tracking-tight',
@@ -129,59 +115,6 @@ export function SiteHeader({
                             light && 'text-paper/80 hover:text-paper',
                         )}
                     />
-
-                    <span
-                        className={cn(
-                            'mx-2 h-5 w-px',
-                            light ? 'bg-paper/20' : 'bg-seafog dark:bg-navy',
-                        )}
-                        aria-hidden
-                    />
-
-                    {auth.user ? (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <button
-                                    type="button"
-                                    aria-label="Account menu"
-                                    className={cn(
-                                        'ml-1 flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold text-brass-bright ring-1 ring-brass/50',
-                                        light ? 'bg-paper/10' : 'bg-navy',
-                                    )}
-                                >
-                                    {getInitials(auth.user.name)}
-                                </button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-56">
-                                <UserMenuContent user={auth.user} />
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    ) : (
-                        <>
-                            <Link
-                                href={login()}
-                                className={cn(
-                                    'rounded-md px-3 py-2 text-sm font-medium transition-colors',
-                                    light
-                                        ? 'text-paper/80 hover:text-paper'
-                                        : 'text-ink-soft hover:text-ink dark:text-paper/70 dark:hover:text-paper',
-                                )}
-                            >
-                                Log in
-                            </Link>
-                            <Link
-                                href={register()}
-                                className={cn(
-                                    'rounded-md border px-4 py-2 text-sm font-semibold transition-colors',
-                                    light
-                                        ? 'border-paper/30 text-paper hover:bg-paper/10'
-                                        : 'border-seafog text-ink hover:bg-paper-deep dark:border-navy dark:text-paper dark:hover:bg-navy',
-                                )}
-                            >
-                                Sign up
-                            </Link>
-                        </>
-                    )}
                 </nav>
 
                 {/* Mobile controls */}
@@ -224,56 +157,6 @@ export function SiteHeader({
                             {link.label}
                         </Link>
                     ))}
-
-                    <div className="my-2 h-px bg-seafog dark:bg-navy" />
-
-                    {auth.user ? (
-                        <>
-                            {auth.user.is_admin ? (
-                                <a
-                                    href="/admin"
-                                    className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-ink-soft hover:bg-paper-deep dark:text-paper/80 dark:hover:bg-navy"
-                                >
-                                    <Shield className="h-4 w-4" />
-                                    Admin panel
-                                </a>
-                            ) : null}
-                            <Link
-                                href={edit()}
-                                onClick={() => setMobileOpen(false)}
-                                className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-ink-soft hover:bg-paper-deep dark:text-paper/80 dark:hover:bg-navy"
-                            >
-                                <Settings className="h-4 w-4" />
-                                Settings
-                            </Link>
-                            <Link
-                                href={logout()}
-                                as="button"
-                                onClick={() => setMobileOpen(false)}
-                                className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-base font-medium text-ink-soft hover:bg-paper-deep dark:text-paper/80 dark:hover:bg-navy"
-                            >
-                                <LogOut className="h-4 w-4" />
-                                Log out
-                            </Link>
-                        </>
-                    ) : (
-                        <>
-                            <Link
-                                href={login()}
-                                onClick={() => setMobileOpen(false)}
-                                className="block rounded-md px-3 py-2 text-base font-medium text-ink-soft hover:bg-paper-deep dark:text-paper/80 dark:hover:bg-navy"
-                            >
-                                Log in
-                            </Link>
-                            <Link
-                                href={register()}
-                                onClick={() => setMobileOpen(false)}
-                                className="mt-1 block rounded-md border border-seafog px-3 py-2 text-center text-base font-semibold text-ink hover:bg-paper-deep dark:border-navy dark:text-paper dark:hover:bg-navy"
-                            >
-                                Sign up
-                            </Link>
-                        </>
-                    )}
                 </nav>
             )}
         </header>

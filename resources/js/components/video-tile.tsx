@@ -1,6 +1,24 @@
-import { usePage } from '@inertiajs/react';
 import { Play } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+
+/**
+ * Only `php artisan serve` (local dev) can't answer HTTP Range requests, so a
+ * self-hosted /media clip won't seek there. Route those through the Range-capable
+ * /stream Laravel route ONLY on localhost; every real host (Cloudflare Pages,
+ * Caddy, …) serves /media statically with Range support. Decided by hostname at
+ * runtime so it's correct no matter where/how the build was generated.
+ */
+function resolveClipUrl(src: string): string {
+    if (!src.startsWith('/media/') || typeof window === 'undefined') {
+        return src;
+    }
+
+    const isLocal = /^(localhost|127\.0\.0\.1|\[::1\])$/i.test(
+        window.location.hostname,
+    );
+
+    return isLocal ? `/stream${src}` : src;
+}
 
 /** iOS Safari exposes fullscreen on the video element itself. */
 type FullscreenableVideo = HTMLVideoElement & {
@@ -24,12 +42,7 @@ export default function VideoTile({
     const clickTimer = useRef<number | null>(null);
     const [playing, setPlaying] = useState(false);
 
-    // Locally, `php artisan serve` can't do Range requests, so seeking a
-    // self-hosted /media clip fails. Route it through /stream (Range-capable)
-    // in dev; production serves /media statically (Caddy handles Range).
-    const { mediaStreaming } = usePage().props;
-    const url =
-        mediaStreaming && src.startsWith('/media/') ? `/stream${src}` : src;
+    const url = resolveClipUrl(src);
 
     // Show the native control bar only while fullscreen; bare tile otherwise.
     useEffect(() => {

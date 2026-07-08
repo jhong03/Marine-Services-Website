@@ -1,4 +1,4 @@
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { ArrowRight, Compass, Heart, Users } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import {
@@ -191,13 +191,13 @@ export default function About({ team }: Props) {
                     <h2 className="font-serif text-3xl font-semibold tracking-tight text-paper sm:text-4xl">
                         Let's talk about your next job
                     </h2>
-                    <Link
+                    <a
                         href="/contact"
                         className="mt-9 inline-flex items-center gap-2 rounded-md bg-brass-bright px-6 py-3 text-base font-semibold text-navy-deep shadow-lg shadow-black/20 transition-colors hover:bg-rope"
                     >
                         Contact us
                         <ArrowRight className="h-4 w-4" />
-                    </Link>
+                    </a>
                 </div>
             </section>
         </PublicLayout>

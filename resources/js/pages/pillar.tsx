@@ -1,4 +1,4 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { ArrowRight } from 'lucide-react';
 import {
     CompassRose,
@@ -130,13 +130,13 @@ export default function Pillar({ category, services, projects }: Props) {
                         Get in touch and our team will talk you through how we
                         can help.
                     </p>
-                    <Link
+                    <a
                         href="/contact"
                         className="mt-9 inline-flex items-center gap-2 rounded-md bg-brass-bright px-6 py-3 text-base font-semibold text-navy-deep shadow-lg shadow-black/20 transition-colors hover:bg-rope"
                     >
                         Contact us
                         <ArrowRight className="h-4 w-4" />
-                    </Link>
+                    </a>
                 </div>
             </section>
         </PublicLayout>

@@ -1,4 +1,4 @@
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { ArrowRight, Clock, Cog, Quote, ShieldCheck } from 'lucide-react';
 import {
     CompassRose,
@@ -89,19 +89,19 @@ export default function Welcome({ projects, testimonials }: Props) {
                         {heroSubtext}
                     </p>
                     <div className="mt-10 flex flex-wrap justify-center gap-4">
-                        <Link
+                        <a
                             href="/projects"
                             className="inline-flex items-center gap-2 rounded-md bg-brass-bright px-6 py-3 text-base font-semibold text-navy-deep shadow-lg shadow-black/20 transition-colors hover:bg-rope"
                         >
                             View our work
                             <ArrowRight className="h-4 w-4" />
-                        </Link>
-                        <Link
+                        </a>
+                        <a
                             href="/contact"
                             className="inline-flex items-center gap-2 rounded-md border border-paper/25 px-6 py-3 text-base font-semibold text-paper transition-colors hover:bg-paper/10"
                         >
                             Contact us
-                        </Link>
+                        </a>
                     </div>
                 </div>
 
@@ -141,7 +141,7 @@ export default function Welcome({ projects, testimonials }: Props) {
                             const Icon = pillar.icon;
 
                             return (
-                                <Link
+                                <a
                                     key={pillar.key}
                                     href={pillar.href}
                                     className="group relative overflow-hidden rounded-xl border border-seafog bg-surface p-7 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-navy/5 dark:border-navy dark:bg-navy-deep"
@@ -160,7 +160,7 @@ export default function Welcome({ projects, testimonials }: Props) {
                                         Explore
                                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                     </span>
-                                </Link>
+                                </a>
                             );
                         })}
                     </div>
@@ -183,13 +183,13 @@ export default function Welcome({ projects, testimonials }: Props) {
                             <ProjectsGrid projects={projects} />
                         </div>
                         <div className="mt-12 text-center">
-                            <Link
+                            <a
                                 href="/projects"
                                 className="inline-flex items-center gap-2 text-base font-semibold text-brass hover:text-timber dark:text-brass-bright dark:hover:text-rope"
                             >
                                 View all projects
                                 <ArrowRight className="h-4 w-4" />
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </section>
@@ -261,13 +261,13 @@ export default function Welcome({ projects, testimonials }: Props) {
                         Reach out and our team will be glad to help — whatever
                         the scope.
                     </p>
-                    <Link
+                    <a
                         href="/contact"
                         className="mt-9 inline-flex items-center gap-2 rounded-md bg-brass-bright px-6 py-3 text-base font-semibold text-navy-deep shadow-lg shadow-black/20 transition-colors hover:bg-rope"
                     >
                         Get in touch
                         <ArrowRight className="h-4 w-4" />
-                    </Link>
+                    </a>
                 </div>
             </section>
         </PublicLayout>

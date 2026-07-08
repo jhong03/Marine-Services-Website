@@ -1,4 +1,4 @@
-import { Link, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
@@ -66,7 +66,7 @@ export function SiteHeader({
             )}
         >
             <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                <Link href="/" className="flex items-center gap-3">
+                <a href="/" className="flex items-center gap-3">
                     <BrandMark />
                     <span
                         className={cn(
@@ -76,12 +76,12 @@ export function SiteHeader({
                     >
                         {companyName}
                     </span>
-                </Link>
+                </a>
 
                 {/* Desktop nav */}
                 <nav className="hidden items-center gap-1 lg:flex">
                     {NAV_LINKS.map((link) => (
-                        <Link
+                        <a
                             key={link.href}
                             href={link.href}
                             className={cn(
@@ -106,7 +106,7 @@ export function SiteHeader({
                                     )}
                                 />
                             )}
-                        </Link>
+                        </a>
                     ))}
 
                     <ThemeToggle
@@ -144,7 +144,7 @@ export function SiteHeader({
             {mobileOpen && (
                 <nav className="border-t border-seafog bg-paper px-4 pb-4 lg:hidden dark:border-navy dark:bg-navy-deep">
                     {NAV_LINKS.map((link) => (
-                        <Link
+                        <a
                             key={link.href}
                             href={link.href}
                             onClick={() => setMobileOpen(false)}
@@ -155,7 +155,7 @@ export function SiteHeader({
                             }`}
                         >
                             {link.label}
-                        </Link>
+                        </a>
                     ))}
                 </nav>
             )}
@@ -193,12 +193,12 @@ export function SiteFooter() {
                     <ul className="mt-4 space-y-2.5 text-sm">
                         {NAV_LINKS.map((link) => (
                             <li key={link.href}>
-                                <Link
+                                <a
                                     href={link.href}
                                     className="text-paper/60 transition-colors hover:text-paper"
                                 >
                                     {link.label}
-                                </Link>
+                                </a>
                             </li>
                         ))}
                     </ul>

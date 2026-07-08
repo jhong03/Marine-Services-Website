@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import { Play } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -22,6 +23,13 @@ export default function VideoTile({
     const ref = useRef<HTMLVideoElement>(null);
     const clickTimer = useRef<number | null>(null);
     const [playing, setPlaying] = useState(false);
+
+    // Locally, `php artisan serve` can't do Range requests, so seeking a
+    // self-hosted /media clip fails. Route it through /stream (Range-capable)
+    // in dev; production serves /media statically (Caddy handles Range).
+    const { mediaStreaming } = usePage().props;
+    const url =
+        mediaStreaming && src.startsWith('/media/') ? `/stream${src}` : src;
 
     // Show the native control bar only while fullscreen; bare tile otherwise.
     useEffect(() => {
@@ -102,7 +110,7 @@ export default function VideoTile({
         >
             <video
                 ref={ref}
-                src={src}
+                src={url}
                 playsInline
                 preload="metadata"
                 onPlay={() => setPlaying(true)}

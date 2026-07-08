@@ -15,6 +15,11 @@ declare module '@inertiajs/core' {
             auth: Auth;
             sidebarOpen: boolean;
             siteSettings: SiteSettings | null;
+            /** True only when running locally — self-hosted clips are then
+             *  served via the /stream route so seeking works on `php artisan
+             *  serve` (which can't do Range requests). Prod serves them
+             *  statically (Caddy handles Range). */
+            mediaStreaming: boolean;
             [key: string]: unknown;
         };
     }

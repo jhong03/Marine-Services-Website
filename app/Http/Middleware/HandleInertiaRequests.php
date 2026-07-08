@@ -46,6 +46,9 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            // Locally, route self-hosted clips through /stream (Range-capable) so
+            // seeking works on `php artisan serve`. Prod serves them statically.
+            'mediaStreaming' => app()->environment('local'),
             'siteSettings' => $settings?->only([
                 'company_name',
                 'tagline',

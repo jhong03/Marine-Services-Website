@@ -36,7 +36,7 @@ rm -rf "$DIST"; mkdir -p "$DIST"
 cp -r public/build "$DIST/build"
 [ -d public/media ]  && cp -r public/media  "$DIST/media"
 [ -d public/images ] && cp -r public/images "$DIST/images"
-for f in favicon.ico favicon.svg apple-touch-icon.png robots.txt; do
+for f in favicon.ico favicon.png apple-touch-icon.png robots.txt; do
     [ -f "public/$f" ] && cp "public/$f" "$DIST/$f"
 done
 

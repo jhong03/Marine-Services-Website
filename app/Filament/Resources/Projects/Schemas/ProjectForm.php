@@ -49,6 +49,10 @@ class ProjectForm
                     ->label('Video link (YouTube / Vimeo)')
                     ->url()
                     ->columnSpanFull(),
+                TagsInput::make('videos')
+                    ->label('Self-hosted video paths')
+                    ->helperText('Add each MP4 path (e.g. /media/projects/main-engine-overhaul/clip-01.mp4) and press Enter.')
+                    ->columnSpanFull(),
                 Toggle::make('is_featured')
                     ->label('Feature on homepage')
                     ->default(false),

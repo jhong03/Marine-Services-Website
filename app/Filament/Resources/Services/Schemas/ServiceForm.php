@@ -47,6 +47,7 @@ class ServiceForm
                         'anchor' => 'Anchor (marine)',
                         'lifebuoy' => 'Life buoy (marine safety)',
                         'waves' => 'Waves (marine)',
+                        'compass' => 'Compass (navigation)',
                     ])
                     ->native(false)
                     ->searchable()

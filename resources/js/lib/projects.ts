@@ -49,8 +49,8 @@ export function pillarLabel(key: string): string {
 /** Convert a YouTube/Vimeo watch URL into an embeddable iframe src (or null). */
 export function videoEmbedUrl(url?: string | null): string | null {
     if (!url) {
-return null;
-}
+        return null;
+    }
 
     try {
         const u = new URL(url);

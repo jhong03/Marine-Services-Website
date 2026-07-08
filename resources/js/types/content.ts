@@ -41,6 +41,7 @@ export type Project = {
     cover_image: string | null;
     images: string[] | null;
     video_url: string | null;
+    videos: string[] | null;
 };
 
 export type TeamMember = {

@@ -25,8 +25,11 @@ media/
 - Any common format is fine (jpg, png, heic, webp).
 - Landscape shots work best for cards/cover; a few portraits are fine for galleries.
 - If you have a preferred **cover** image, name it `cover.*` (otherwise I'll pick one).
-- **Videos:** don't drop large video files — instead give me the **YouTube / Vimeo
-  links** and I'll embed them (keeps the site fast and free to host).
+- **Videos:** two options. Drop short clips here and I'll compress them (H.264,
+  web-optimized) and commit them to `public/media/projects/…` to be **self-hosted**
+  and played inline in the project lightbox — keep each clip short (≈≤45s) so the set
+  stays a sensible size. For longer/heavier footage, give me a **YouTube / Vimeo link**
+  and I'll embed it instead.
 
 Tell me the project **title, category (Industrial / Marine / Spare Parts), and a
 sentence or two of description** for each folder (or I'll start with placeholders

@@ -204,13 +204,13 @@ export default function ProjectsGrid({ projects }: { projects: Project[] }) {
 
     useEffect(() => {
         if (!active) {
-return;
-}
+            return;
+        }
 
         const onKey = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
-setActive(null);
-}
+                setActive(null);
+            }
         };
         document.addEventListener('keydown', onKey);
         document.body.style.overflow = 'hidden';

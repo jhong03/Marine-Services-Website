@@ -34,8 +34,15 @@ class ContentSeeder extends Seeder
             ['category' => 'industrial', 'icon' => 'zap', 'title' => 'Electrical Services', 'description' => 'Industrial electrical installation, panel building and fault-finding by certified electricians.'],
             ['category' => 'industrial', 'icon' => 'hardhat', 'title' => 'Shutdowns & Turnarounds', 'description' => 'Planned shutdown support, overhauls and turnaround crews to get you back online fast.'],
 
-            // Marine
-            ['category' => 'marine', 'icon' => 'ship', 'title' => 'Marine Engine Service & Repair', 'description' => 'Servicing, diagnostics and repair for inboard and outboard marine engines — petrol and diesel.'],
+            // Marine — commercial ship engineering
+            ['category' => 'marine', 'icon' => 'wrench', 'title' => 'Main Engine Service & Overhaul', 'description' => 'Overhaul, top-end work and running maintenance for medium- and slow-speed marine diesel main engines and auxiliaries.'],
+            ['category' => 'marine', 'icon' => 'cog', 'title' => 'Engine-Room Systems & Machinery', 'description' => 'Pumps, compressors, separators, coolers and piping systems kept reliable throughout the engine room.'],
+            ['category' => 'marine', 'icon' => 'zap', 'title' => 'Marine Electrical & Switchboard', 'description' => 'Main switchboard, generators, alarm and control systems — fault-finding and repair by marine electricians.'],
+            ['category' => 'marine', 'icon' => 'gauge', 'title' => 'Steering Gear & Hydraulics', 'description' => 'Steering gear, hydraulic power packs and deck machinery serviced, tested and kept survey-ready.'],
+            ['category' => 'marine', 'icon' => 'compass', 'title' => 'Navigation & Bridge Systems', 'description' => 'ECDIS, radar and wheelhouse console installation, servicing and troubleshooting.'],
+
+            // Marine — small craft
+            ['category' => 'marine', 'icon' => 'ship', 'title' => 'Small-Craft Engine Service', 'description' => 'Servicing, diagnostics and repair for inboard and outboard engines on small craft — petrol and diesel.'],
             ['category' => 'marine', 'icon' => 'droplets', 'title' => 'Hull Cleaning & Coatings', 'description' => 'Pressure washing, antifoul and protective coatings to keep vessels performing.'],
             ['category' => 'marine', 'icon' => 'anchor', 'title' => 'Deck & Rigging', 'description' => 'Standing and running rigging, deck hardware and on-water repairs for all vessel types.'],
             ['category' => 'marine', 'icon' => 'lifebuoy', 'title' => 'Marine Safety & Survey', 'description' => 'Safety equipment servicing, liferaft checks and survey preparation.'],
@@ -59,16 +66,68 @@ class ContentSeeder extends Seeder
 
         $placeholder = 'Placeholder project — add real photos, a video link and the story of this job in the admin panel.';
 
+        // Note left on the real marine jobs until the client confirms details.
+        $toConfirm = "\n\nVessel, client, location and date to be confirmed and added in the admin panel.";
+
+        $mediaBase = '/media/projects';
+
         $projects = [
-            ['category' => 'industrial', 'title' => 'Refinery Pump Overhaul', 'summary' => 'Full overhaul of critical process pumps during a planned plant shutdown.', 'client' => '[Client name]', 'location' => '[Location]', 'year' => '2024', 'is_featured' => true],
-            ['category' => 'industrial', 'title' => 'Structural Steel Fabrication', 'summary' => 'Design and fabrication of custom structural steelwork for a processing facility.', 'year' => '2023', 'is_featured' => false],
-            ['category' => 'marine', 'title' => 'Tanker Main Engine Rebuild', 'summary' => 'Complete rebuild and recommissioning of a marine main engine.', 'client' => '[Client name]', 'year' => '2024', 'is_featured' => true],
-            ['category' => 'marine', 'title' => 'Hull Recoat & Antifoul', 'summary' => 'Haul-out, blast and full protective coating system on a working vessel.', 'year' => '2023', 'is_featured' => false],
-            ['category' => 'spare_parts', 'title' => 'Emergency Parts Supply', 'summary' => 'Sourced and delivered critical spares within 24 hours to avert downtime.', 'year' => '2024', 'is_featured' => true],
+            // ---- Marine: real jobs from on-board media ----
+            [
+                'category' => 'marine',
+                'title' => 'Marine Main Engine Overhaul',
+                'summary' => "Top-end overhaul and running maintenance on a vessel's main propulsion engine and engine-room machinery.",
+                'body' => 'Hands-on overhaul of a marine diesel main engine and its supporting machinery, carried out on board. Work included opening up the cylinder units and valve gear for inspection and servicing, and attending to the surrounding engine-room systems to bring the plant back to reliable running order.'.$toConfirm,
+                'client' => null,
+                'location' => null,
+                'year' => null,
+                'cover_image' => "{$mediaBase}/main-engine-overhaul/cover.jpg",
+                'images' => ["{$mediaBase}/main-engine-overhaul/01.jpg"],
+                'videos' => [
+                    "{$mediaBase}/main-engine-overhaul/clip-01.mp4",
+                    "{$mediaBase}/main-engine-overhaul/clip-02.mp4",
+                    "{$mediaBase}/main-engine-overhaul/clip-03.mp4",
+                    "{$mediaBase}/main-engine-overhaul/clip-04.mp4",
+                    "{$mediaBase}/main-engine-overhaul/clip-05.mp4",
+                    "{$mediaBase}/main-engine-overhaul/clip-06.mp4",
+                ],
+                'is_featured' => true,
+            ],
+            [
+                'category' => 'marine',
+                'title' => 'Bridge & Navigation Systems',
+                'summary' => 'Support for wheelhouse navigation and manoeuvring equipment — ECDIS, radar and bridge consoles.',
+                'body' => 'Attending to the vessel\'s bridge equipment, including the ECDIS and radar navigation consoles and the main manoeuvring console. Work of this kind covers checking, servicing and troubleshooting the wheelhouse systems the crew rely on at sea.'.$toConfirm,
+                'client' => null,
+                'location' => null,
+                'year' => null,
+                'cover_image' => "{$mediaBase}/bridge-navigation/cover.jpg",
+                'images' => ["{$mediaBase}/bridge-navigation/01.jpg"],
+                'videos' => null,
+                'is_featured' => false,
+            ],
+            [
+                'category' => 'marine',
+                'title' => 'Switchboard & Steering Gear Service',
+                'summary' => 'Main switchboard, electrical distribution and steering-gear hydraulics inspected and maintained.',
+                'body' => 'Servicing of the engine-control-room main switchboard and electrical distribution alongside the steering-gear compartment — including the hydraulic power packs that drive the steering. Regular attention here keeps a vessel\'s power and steering dependable and survey-ready.'.$toConfirm,
+                'client' => null,
+                'location' => null,
+                'year' => null,
+                'cover_image' => "{$mediaBase}/engine-room-systems/cover.jpg",
+                'images' => ["{$mediaBase}/engine-room-systems/01.jpg"],
+                'videos' => null,
+                'is_featured' => false,
+            ],
+
+            // ---- Industrial & spare parts: placeholders (media to come) ----
+            ['category' => 'industrial', 'title' => 'Refinery Pump Overhaul', 'summary' => 'Full overhaul of critical process pumps during a planned plant shutdown.', 'body' => $placeholder, 'client' => '[Client name]', 'location' => '[Location]', 'year' => '2024', 'cover_image' => null, 'images' => null, 'videos' => null, 'is_featured' => true],
+            ['category' => 'industrial', 'title' => 'Structural Steel Fabrication', 'summary' => 'Design and fabrication of custom structural steelwork for a processing facility.', 'body' => $placeholder, 'client' => null, 'location' => null, 'year' => '2023', 'cover_image' => null, 'images' => null, 'videos' => null, 'is_featured' => false],
+            ['category' => 'spare_parts', 'title' => 'Emergency Parts Supply', 'summary' => 'Sourced and delivered critical spares within 24 hours to avert downtime.', 'body' => $placeholder, 'client' => null, 'location' => null, 'year' => '2024', 'cover_image' => null, 'images' => null, 'videos' => null, 'is_featured' => true],
         ];
 
         foreach ($projects as $i => $project) {
-            Project::create([...$project, 'body' => $placeholder, 'sort_order' => $i, 'is_published' => true]);
+            Project::create([...$project, 'sort_order' => $i, 'is_published' => true]);
         }
     }
 

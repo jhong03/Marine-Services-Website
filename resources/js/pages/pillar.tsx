@@ -7,6 +7,7 @@ import {
     SectionHeading,
 } from '@/components/marine';
 import ProjectsGrid from '@/components/projects-grid';
+import VideoTile from '@/components/video-tile';
 import PublicLayout from '@/layouts/public-layout';
 import { serviceIcon } from '@/lib/icons';
 import { pillarByKey } from '@/lib/projects';
@@ -21,6 +22,9 @@ type Props = {
 export default function Pillar({ category, services, projects }: Props) {
     const pillar = pillarByKey(category);
     const label = pillar?.label ?? 'Our Services';
+    const videos = projects
+        .flatMap((project) => project.videos ?? [])
+        .filter(Boolean);
 
     return (
         <PublicLayout>
@@ -71,6 +75,31 @@ export default function Pillar({ category, services, projects }: Props) {
                 </div>
             </section>
 
+            {/* Work in action — self-hosted clips from this pillar's jobs */}
+            {videos.length > 0 && (
+                <section className="border-t border-seafog bg-paper py-20 dark:border-navy dark:bg-navy-deep">
+                    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <SectionHeading
+                            center
+                            eyebrow="Work in action"
+                            title="On board with our crew"
+                        >
+                            Short, unedited clips from recent jobs — real work
+                            as it happened on the vessel.
+                        </SectionHeading>
+                        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            {videos.map((src, i) => (
+                                <VideoTile
+                                    key={i}
+                                    src={src}
+                                    className="aspect-video w-full rounded-xl border border-seafog bg-navy-deep dark:border-navy"
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {/* Recent work in this pillar */}
             <section className="border-t border-seafog bg-paper-deep/40 py-20 dark:border-navy dark:bg-navy">
                 <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -80,7 +109,7 @@ export default function Pillar({ category, services, projects }: Props) {
                         title="Projects & case studies"
                     >
                         A selection of jobs we've delivered — tap any card for
-                        photos, video and the full story.
+                        photos and the full story.
                     </SectionHeading>
                     <div className="mt-14">
                         <ProjectsGrid projects={projects} />

@@ -17,6 +17,7 @@ class Project extends Model
         'cover_image',
         'images',
         'video_url',
+        'videos',
         'is_featured',
         'sort_order',
         'is_published',
@@ -26,6 +27,7 @@ class Project extends Model
     {
         return [
             'images' => 'array',
+            'videos' => 'array',
             'is_featured' => 'boolean',
             'is_published' => 'boolean',
         ];

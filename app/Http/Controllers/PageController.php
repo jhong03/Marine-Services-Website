@@ -13,7 +13,7 @@ class PageController extends Controller
 {
     private const PROJECT_FIELDS = [
         'id', 'category', 'title', 'summary', 'body',
-        'client', 'location', 'year', 'cover_image', 'images', 'video_url',
+        'client', 'location', 'year', 'cover_image', 'images', 'video_url', 'videos',
     ];
 
     public function home(): Response

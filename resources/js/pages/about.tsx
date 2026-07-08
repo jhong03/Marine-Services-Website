@@ -8,7 +8,7 @@ import {
     SectionHeading,
 } from '@/components/marine';
 import PublicLayout from '@/layouts/public-layout';
-import type { CoreValue, Stat, TeamMember } from '@/types';
+import type { CoreValue, TeamMember } from '@/types';
 
 const VALUE_ICONS: LucideIcon[] = [Compass, Heart, Users];
 
@@ -28,13 +28,6 @@ const DEFAULT_VALUES: CoreValue[] = [
         description:
             'On-site and on-time, keeping your operation running with minimal downtime.',
     },
-];
-
-const DEFAULT_STATS: Stat[] = [
-    { value: '25+', label: 'Years of expertise' },
-    { value: '900+', label: 'Projects delivered' },
-    { value: '2', label: 'Core divisions' },
-    { value: '24/7', label: 'Emergency support' },
 ];
 
 function initials(name: string): string {
@@ -57,9 +50,6 @@ export default function About({ team }: Props) {
     const values = siteSettings?.core_values?.length
         ? siteSettings.core_values
         : DEFAULT_VALUES;
-    const stats = siteSettings?.stats?.length
-        ? siteSettings.stats
-        : DEFAULT_STATS;
     const storyParagraphs = (
         siteSettings?.about_story ??
         "Veritas Industrial Services was built on a simple promise: dependable, honest work our clients can trust — across industry and on the water.\n\nShare your real history and we'll bring it to life right here."
@@ -78,34 +68,17 @@ export default function About({ team }: Props) {
                 operation back up and running.
             </PageBanner>
 
-            {/* Story + stats */}
+            {/* Story */}
             <section className="bg-paper py-20 dark:bg-navy-deep">
-                <div className="mx-auto grid w-full max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
-                    <div>
-                        <SectionHeading
-                            eyebrow="How we started"
-                            title="Built on precision, trusted for results"
-                        />
-                        <div className="mt-6 space-y-4 text-lg leading-relaxed text-ink-soft dark:text-paper/70">
-                            {storyParagraphs.map((paragraph, index) => (
-                                <p key={index}>{paragraph}</p>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="relative overflow-hidden rounded-3xl bg-navy p-10 text-paper shadow-xl dark:bg-navy">
-                        <CompassRose className="pointer-events-none absolute -top-12 -right-12 h-56 w-56 text-brass-bright/10" />
-                        <div className="relative grid grid-cols-2 gap-8">
-                            {stats.map((stat) => (
-                                <div key={stat.label}>
-                                    <div className="font-serif text-4xl font-semibold text-brass-bright">
-                                        {stat.value}
-                                    </div>
-                                    <div className="mt-1.5 text-xs font-semibold tracking-[0.15em] text-paper/60 uppercase">
-                                        {stat.label}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8">
+                    <SectionHeading
+                        eyebrow="How we started"
+                        title="Built on precision, trusted for results"
+                    />
+                    <div className="mt-6 space-y-4 text-lg leading-relaxed text-ink-soft dark:text-paper/70">
+                        {storyParagraphs.map((paragraph, index) => (
+                            <p key={index}>{paragraph}</p>
+                        ))}
                     </div>
                 </div>
             </section>

@@ -10,7 +10,7 @@ import {
 import ProjectsGrid from '@/components/projects-grid';
 import PublicLayout from '@/layouts/public-layout';
 import { PILLARS } from '@/lib/projects';
-import type { Project, Stat, Testimonial } from '@/types';
+import type { Project, Testimonial } from '@/types';
 
 const WHY_US = [
     {
@@ -33,13 +33,6 @@ const WHY_US = [
     },
 ];
 
-const DEFAULT_STATS: Stat[] = [
-    { value: '25+', label: 'Years of expertise' },
-    { value: '900+', label: 'Projects delivered' },
-    { value: '2', label: 'Core divisions' },
-    { value: '24/7', label: 'Emergency support' },
-];
-
 type Props = {
     projects: Project[];
     testimonials: Testimonial[];
@@ -48,9 +41,6 @@ type Props = {
 export default function Welcome({ projects, testimonials }: Props) {
     const { siteSettings } = usePage().props;
 
-    const stats = siteSettings?.stats?.length
-        ? siteSettings.stats
-        : DEFAULT_STATS;
     const heroHeading =
         siteSettings?.hero_heading ??
         'Precision industrial & marine services you can trust';
@@ -106,22 +96,6 @@ export default function Welcome({ projects, testimonials }: Props) {
                 </div>
 
                 <WaveEdge />
-            </section>
-
-            {/* Stats band */}
-            <section className="bg-paper dark:bg-navy-deep">
-                <div className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-y-8 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:divide-x lg:divide-seafog lg:px-8 dark:lg:divide-navy">
-                    {stats.map((stat) => (
-                        <div key={stat.label} className="px-4 text-center">
-                            <div className="font-serif text-4xl font-semibold text-brass sm:text-5xl dark:text-brass-bright">
-                                {stat.value}
-                            </div>
-                            <div className="mt-2 text-xs font-semibold tracking-[0.18em] text-ink-soft uppercase dark:text-paper/55">
-                                {stat.label}
-                            </div>
-                        </div>
-                    ))}
-                </div>
             </section>
 
             {/* Pillars */}

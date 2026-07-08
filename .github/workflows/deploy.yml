@@ -49,8 +49,12 @@ jobs:
         run: bash scripts/build-static.sh
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=veritas-industrial
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # Create the project if it doesn't exist yet (idempotent), then deploy.
+          npx --yes wrangler@3 pages project create veritas-industrial \
+            --production-branch=main || true
+          npx --yes wrangler@3 pages deploy dist \
+            --project-name=veritas-industrial --branch=main

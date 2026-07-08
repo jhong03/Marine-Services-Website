@@ -25,8 +25,32 @@ const setCookie = (name: string, value: string, days = 365): void => {
         return;
     }
 
-    const maxAge = days * 24 * 60 * 60;
-    document.cookie = `${name}=${value};path=/;max-age=${maxAge};SameSite=Lax`;
+    // Guarded: document.cookie throws in a sandboxed document.
+    try {
+        const maxAge = days * 24 * 60 * 60;
+        document.cookie = `${name}=${value};path=/;max-age=${maxAge};SameSite=Lax`;
+    } catch {
+        // no-op — theme just won't persist
+    }
+};
+
+// localStorage access throws (SecurityError) in a sandboxed document or when
+// storage is blocked (some privacy modes). Fall back gracefully instead of
+// crashing the render.
+const safeGetItem = (key: string): string | null => {
+    try {
+        return window.localStorage.getItem(key);
+    } catch {
+        return null;
+    }
+};
+
+const safeSetItem = (key: string, value: string): void => {
+    try {
+        window.localStorage.setItem(key, value);
+    } catch {
+        // no-op — theme just won't persist
+    }
 };
 
 const getStoredAppearance = (): Appearance => {
@@ -34,7 +58,7 @@ const getStoredAppearance = (): Appearance => {
         return 'system';
     }
 
-    return (localStorage.getItem('appearance') as Appearance) || 'system';
+    return (safeGetItem('appearance') as Appearance) || 'system';
 };
 
 const isDarkMode = (appearance: Appearance): boolean => {
@@ -75,8 +99,8 @@ export function initializeTheme(): void {
         return;
     }
 
-    if (!localStorage.getItem('appearance')) {
-        localStorage.setItem('appearance', 'system');
+    if (!safeGetItem('appearance')) {
+        safeSetItem('appearance', 'system');
         setCookie('appearance', 'system');
     }
 
@@ -102,7 +126,7 @@ export function useAppearance(): UseAppearanceReturn {
         currentAppearance = mode;
 
         // Store in localStorage for client-side persistence...
-        localStorage.setItem('appearance', mode);
+        safeSetItem('appearance', mode);
 
         // Store in cookie for SSR...
         setCookie('appearance', mode);
